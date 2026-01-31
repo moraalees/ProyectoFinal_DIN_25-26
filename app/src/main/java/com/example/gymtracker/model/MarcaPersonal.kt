@@ -3,7 +3,6 @@ package com.example.gymtracker.model
 import com.example.gymtracker.model.enum_classes.TipoPeso
 import java.time.LocalDate
 
-//TODO
 data class MarcaPersonal(
     val id: Int,
     val ejercicioId: Int,

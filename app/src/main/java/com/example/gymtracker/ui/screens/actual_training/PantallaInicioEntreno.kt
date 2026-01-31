@@ -85,7 +85,10 @@ fun PantallaInicioEntreno(
     var enDescanso by remember { mutableStateOf(false) }
     var tiempoRestante by remember { mutableIntStateOf(120) }
 
-    // Función para avanzar serie o ejercicio y guardar al final
+    val fondoDesvanecido = Brush.verticalGradient(
+        colors = listOf(Color(0xFF32437E), Color.Black)
+    )
+
     fun avanzarSerieOEjercicio() {
         val ejercicio = entrenoHoy.ejercicios[indiceEjercicio]
         if (serieActual < ejercicio.series) {
@@ -94,7 +97,6 @@ fun PantallaInicioEntreno(
             indiceEjercicio++
             serieActual = 1
         } else {
-            // Guardar entrenamiento al final de toda la sesión
             val ejerciciosGuardados = entrenoHoy.ejercicios.map { it.copiaGuardada() }.toMutableList()
             val entrenoRealizado = Entreno(
                 nombre = entrenoHoy.nombre,
@@ -132,7 +134,7 @@ fun PantallaInicioEntreno(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(listOf(Color(0xFF32437E), Color.Black))),
+            .background(fondoDesvanecido),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(

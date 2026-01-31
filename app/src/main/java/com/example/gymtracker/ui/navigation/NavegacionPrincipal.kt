@@ -4,23 +4,13 @@ import android.content.Context
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,17 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.gymtracker.data.local.json.UsuarioGimnasioJsonDataSource
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.data.repository.EntrenamientosRepository
-import com.example.gymtracker.data.repository.UsuarioGimnasioRepository
-import com.example.gymtracker.model.Entreno
-import com.example.gymtracker.model.PlanSemanal
 import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.screens.actual_training.EntrenamientoViewModel
@@ -60,6 +45,7 @@ import com.example.gymtracker.ui.screens.home.PantallaPrincipal
 import com.example.gymtracker.ui.screens.login.LoginViewModel
 import com.example.gymtracker.ui.screens.login.PantallaLogin
 import com.example.gymtracker.ui.screens.records.PantallaMarcas
+import com.example.gymtracker.ui.screens.records.PantallaMarcasRecords
 import com.example.gymtracker.ui.screens.register.PantallaRegistro
 import com.example.gymtracker.ui.screens.register.RegistroViewModel
 import com.example.gymtracker.ui.screens.routines.PantallaRutinas
@@ -100,8 +86,12 @@ fun NavegadorPrincipal(
         usuarioActivo = ControladorSesion.usuarioLogueado()
 
         inicioAplicacion = if (usuarioActivo != null) {
-            val tienePerfil = formularioViewModel.tienePerfil(usuarioActivo!!.id)
-            if (tienePerfil) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
+            if (usuarioActivo!!.esAdmin) {
+                Rutas.ADMIN.ruta
+            } else {
+                val perfil = rutinasViewModel.obtenerPerfil(usuarioActivo!!.id)
+                if (perfil != null) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
+            }
         } else {
             Rutas.LOGIN.ruta
         }
@@ -202,6 +192,22 @@ fun NavegadorPrincipal(
                 NavigationDrawerItem(
                     label = {
                         Text(
+                            text = "Récords Globales"
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                            navController.navigate(Rutas.MARCAS_RECORDS.ruta) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    }
+                )
+                NavigationDrawerItem(
+                    label = {
+                        Text(
                             text = "Cerrar Sesión"
                         )
                     },
@@ -227,8 +233,7 @@ fun NavegadorPrincipal(
                     rutaActual != Rutas.CREDENCIALES.ruta &&
                     rutaActual != Rutas.ENTRENOS.ruta &&
                     rutaActual != Rutas.ENTRENO_ESPECIFICO.ruta &&
-                    rutaActual != Rutas.INICIO_ENTRENO.ruta &&
-                    rutaActual != Rutas.ADMIN.ruta
+                    rutaActual != Rutas.INICIO_ENTRENO.ruta
                 ) {
                     usuarioActivo?.let { usuario ->
                         MiTopBar(
@@ -239,8 +244,10 @@ fun NavegadorPrincipal(
                                 }
                             },
                             desplegarMenu = {
+                                if (!usuario.esAdmin)
                                 scope.launch { drawerState.open() }
-                            }
+                            },
+                            mostrarMenu = !usuario.esAdmin
                         )
                     }
                 }
@@ -266,8 +273,12 @@ fun NavegadorPrincipal(
                         loginExitoso = {
                             val usuario = ControladorSesion.usuarioLogueado()!!
                             usuarioActivo = usuario
-                            val tienePerfil = formularioViewModel.tienePerfil(usuario.id)
-                            val ruta = if (tienePerfil) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
+                            val ruta = if (usuario.esAdmin) {
+                                Rutas.ADMIN.ruta
+                            } else {
+                                val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
+                                if (perfil != null) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
+                            }
 
                             navController.navigate(ruta) {
                                 popUpTo(Rutas.LOGIN.ruta) { inclusive = true }
@@ -337,7 +348,12 @@ fun NavegadorPrincipal(
                         PantallaDatosUsuario(
                             usuario = usuario,
                             volverHome = {
-                                navController.navigate(Rutas.HOME.ruta) { popUpTo(Rutas.HOME.ruta) { inclusive = true } }
+                                if (!usuario.esAdmin){
+                                    navController.navigate(Rutas.HOME.ruta) { popUpTo(Rutas.HOME.ruta) { inclusive = true } }
+                                } else {
+                                    navController.navigate(Rutas.ADMIN.ruta) { popUpTo(Rutas.ADMIN.ruta) { inclusive = true } }
+                                }
+
                             },
                             viewModel = datosViewModel
                         )
@@ -472,8 +488,24 @@ fun NavegadorPrincipal(
 
                 composable(Rutas.ADMIN.ruta) {
                     PantallaAdmin(
-
+                        pantallaRecords = {
+                            navController.navigate(Rutas.MANEJO_MARCAS_ADMIN.ruta)
+                        },
+                        cerrarSesion = {
+                            scope.launch {
+                                ControladorSesion.cerrarSesion(context)
+                                navController.navigate(Rutas.LOGIN.ruta) { popUpTo(0) { inclusive = true } }
+                            }
+                        }
                     )
+                }
+
+                composable(Rutas.MARCAS_RECORDS.ruta){
+                    PantallaMarcasRecords()
+                }
+
+                composable(Rutas.MANEJO_MARCAS_ADMIN.ruta){
+
                 }
             }
         }

@@ -15,5 +15,7 @@ enum class Rutas(val ruta: String) {
     ENTRENOS("entrenos"),
     ENTRENO_ESPECIFICO("entreno_especifico"),
     INICIO_ENTRENO("inicio_entreno"),
-    ADMIN("admin")
+    ADMIN("admin"),
+    MARCAS_RECORDS("marcas_records"),
+    MANEJO_MARCAS_ADMIN("manejo_marcas_admin")
 }

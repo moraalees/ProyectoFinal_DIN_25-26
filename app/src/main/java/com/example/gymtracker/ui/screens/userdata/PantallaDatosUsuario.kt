@@ -107,7 +107,7 @@ fun PantallaDatosUsuario(
             ) { viewModel.cambiarContrasena(it) }
         }
 
-        if (modo == ModoDatos.GIMNASIO && perfil != null) {
+        if (modo == ModoDatos.GIMNASIO && perfil != null && !usuario.esAdmin) {
 
             Text("Edad", color = Color.White, fontSize = 14.sp, fontStyle = FontStyle.Italic)
             EnumDropdown(
