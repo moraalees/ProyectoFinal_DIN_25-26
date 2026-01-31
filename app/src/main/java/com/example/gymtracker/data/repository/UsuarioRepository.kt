@@ -6,6 +6,10 @@ import com.example.gymtracker.model.Usuario
 class UsuarioRepository(
     private val dsUsuario: UsuarioJsonDataSource
 ) {
+    fun obtenerUsuarioPorId(id: Int): Usuario? {
+        return dsUsuario.obtenerUsuarios().find { it.id == id }
+    }
+
     fun registrarUsuario(
         nombre: String,
         nombreUsuario: String,
