@@ -1,5 +1,6 @@
 package com.example.gymtracker.ui.screens.records
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,30 +8,35 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.example.gymtracker.ui.screens.records.components.CardEjercicioRecord
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gymtracker.data.records.LocalRecordsDataSource
-import com.example.gymtracker.data.records.RecordsRepository
-import com.example.gymtracker.ui.screens.records.components.DialogTopDetails
+import com.example.gymtracker.ui.components.CardEjercicioRecord
+import com.example.gymtracker.ui.components.DialogTopDetails
 import com.google.gson.Gson
 import androidx.compose.ui.platform.LocalContext
 import android.net.Uri
+import androidx.core.content.FileProvider
 import com.example.gymtracker.data.local.json.GuardadoJson
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.data.repository.UsuarioRepository
 import com.example.gymtracker.ui.controllers.ControladorSesion
+import com.example.gymtracker.data.records.LocalRecordsDataSource
+import com.example.gymtracker.data.records.RecordsRepository
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gymtracker.model.RecordExerciseEntry
+import java.io.File
 
 @Composable
 fun PantallaMarcasRecords() {
@@ -55,12 +61,31 @@ fun PantallaMarcasRecords() {
         }
     })
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    var selectedEntry by remember { mutableStateOf<RecordExerciseEntry?>(null) }
+    var mostrarDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        vm.events.collect { event ->
+            when (event) {
+                is RecordsEvent.RequestSent -> {
+                    if (event.success) {
+                        snackbarHostState.showSnackbar(event.mensaje ?: "Solicitud enviada!")
+                        mostrarDialog = false
+                    } else {
+                        snackbarHostState.showSnackbar(event.mensaje ?: "Error creando la solicitud")
+                    }
+                }
+                is RecordsEvent.SubmissionResult -> {
+                }
+            }
+        }
+    }
+
     val fondoDesvanecido = Brush.verticalGradient(
         colors = listOf(Color(0xFF32437E), Color.Black)
     )
-
-    var selectedEntry by remember { mutableStateOf<com.example.gymtracker.data.records.RecordExerciseEntry?>(null) }
-    var mostrarDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         vm.loadTopsForAll()
@@ -74,7 +99,14 @@ fun PantallaMarcasRecords() {
             .fillMaxSize()
             .background(fondoDesvanecido)
     ){
-        Text(text = "Records de ejercicios", color = Color.White)
+        Text(
+            text = "Records de ejercicios",
+            color = Color.White
+        )
+
+        SnackbarHost(
+            hostState = snackbarHostState
+        )
 
         val ejercicios = when (val state = uiState.value) {
             is RecordsUiState.Loading -> emptyList()
@@ -90,7 +122,7 @@ fun PantallaMarcasRecords() {
             columns = GridCells.Fixed(2),
         ){
             items(ejercicios) { ejercicio ->
-                CardEjercicioRecord(entry = ejercicio, getUsername = { id -> usuarioRepo.obtenerUsuarioPorId(id)?.nombreUsuario ?: "Usuario$id" }) {
+                CardEjercicioRecord(entry = ejercicio, obtenerUsuario = { id -> usuarioRepo.obtenerUsuarioPorId(id)?.nombreUsuario ?: "Usuario$id" }) {
                     selectedEntry = ejercicio
                     mostrarDialog = true
                 }
@@ -112,11 +144,11 @@ fun PantallaMarcasRecords() {
                     vm.attemptSubmit(selectedEntry!!.ejercicioId, fixedCandidate.usuarioId, fixedCandidate, videoUri)
                 },
                 onPlayVideo = { relativePath ->
-                    val file = java.io.File(contexto.filesDir, "records/$relativePath")
-                    val uri: Uri = androidx.core.content.FileProvider.getUriForFile(contexto, contexto.packageName + ".fileprovider", file)
-                    val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                    val file = File(contexto.filesDir, "records/$relativePath")
+                    val uri: Uri = FileProvider.getUriForFile(contexto, contexto.packageName + ".fileprovider", file)
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
                         setDataAndType(uri, "video/*")
-                        addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
                     contexto.startActivity(intent)
                 }

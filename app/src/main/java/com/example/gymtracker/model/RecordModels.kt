@@ -1,4 +1,4 @@
-package com.example.gymtracker.data.records
+package com.example.gymtracker.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -19,4 +19,16 @@ data class RecordExerciseEntry(
 
 data class RecordsFile(
     @SerializedName("exercises") val exercises: List<RecordExerciseEntry> = emptyList()
+)
+
+// Nuevo: modelo de solicitud de marca
+data class RecordRequest(
+    @SerializedName("id") val id: String,
+    @SerializedName("ejercicioId") val ejercicioId: Int,
+    @SerializedName("submission") val submission: RecordSubmission,
+    @SerializedName("videoPath") val videoPath: String // ruta relativa dentro de filesDir (p. ej. "requests/videos/ejercicio_...mp4")
+)
+
+data class RequestsFile(
+    @SerializedName("requests") val requests: List<RecordRequest> = emptyList()
 )

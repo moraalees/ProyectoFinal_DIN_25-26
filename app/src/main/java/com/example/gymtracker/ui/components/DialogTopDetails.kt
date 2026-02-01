@@ -1,4 +1,4 @@
-package com.example.gymtracker.ui.screens.records.components
+package com.example.gymtracker.ui.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -18,8 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.gymtracker.data.records.RecordExerciseEntry
-import com.example.gymtracker.data.records.RecordSubmission
+import com.example.gymtracker.model.RecordExerciseEntry
+import com.example.gymtracker.model.RecordSubmission
+import java.time.LocalDate
 
 @Composable
 fun DialogTopDetails(
@@ -41,7 +42,7 @@ fun DialogTopDetails(
         val peso = pesoText.toDoubleOrNull()
         val reps = repsText.toIntOrNull()
         if (peso != null && reps != null) {
-            val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = java.time.LocalDate.now().toString())
+            val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = LocalDate.now().toString())
             checkWouldEnter(candidate) { canEnter ->
                 permitirEnviar = canEnter
             }
@@ -54,7 +55,7 @@ fun DialogTopDetails(
         val peso = pesoText.toDoubleOrNull()
         val reps = repsText.toIntOrNull()
         if (peso != null && reps != null) {
-            val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = java.time.LocalDate.now().toString())
+            val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = LocalDate.now().toString())
             checkWouldEnter(candidate) { canEnter ->
                 permitirEnviar = canEnter
             }
@@ -69,7 +70,7 @@ fun DialogTopDetails(
             Button(onClick = {
                 val peso = pesoText.toDoubleOrNull() ?: 0.0
                 val reps = repsText.toIntOrNull() ?: 0
-                val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = java.time.LocalDate.now().toString())
+                val candidate = RecordSubmission(usuarioId = usuarioId, peso = peso, repeticiones = reps, fecha = LocalDate.now().toString())
                 onRequestSubmit(candidate, selectedVideoUri.value)
             }, enabled = (permitirEnviar && selectedVideoUri.value != null)) {
                 Text("Enviar marca")

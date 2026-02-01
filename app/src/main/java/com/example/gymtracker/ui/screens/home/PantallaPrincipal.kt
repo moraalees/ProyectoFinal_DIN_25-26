@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.PlanSemanal
 import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.ui.components.EntrenoDelDiaRotativo
+import java.util.Calendar
 
 @Composable
 fun PantallaPrincipal(
@@ -41,6 +42,10 @@ fun PantallaPrincipal(
         colors = listOf(Color(0xFF32437E), Color.Black)
     )
     val rutina = viewModel.rutinaActiva
+
+    val hoy = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+    val indiceDia = (hoy + 5) % 7
+    val entrenoHoy = rutina?.dias?.getOrNull(indiceDia)
 
     Box(
         modifier = Modifier
@@ -63,7 +68,8 @@ fun PantallaPrincipal(
             } ?: Text("No tienes ninguna rutina activa", color = Color.White)
         }
 
-        if (rutina != null){
+        // Mostrar el botón solo si hay rutina activa y hoy es día de entrenamiento con ejercicios
+        if (rutina != null && entrenoHoy != null && entrenoHoy.esEntreno && entrenoHoy.ejercicios.isNotEmpty()){
             IconButton(
                 onClick = { iniciarEntreno(rutina) },
                 colors = IconButtonDefaults.iconButtonColors(

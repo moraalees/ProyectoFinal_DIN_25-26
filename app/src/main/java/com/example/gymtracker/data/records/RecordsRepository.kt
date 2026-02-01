@@ -1,135 +1,148 @@
 package com.example.gymtracker.data.records
 
 import android.net.Uri
+import com.example.gymtracker.model.RecordExerciseEntry
+import com.example.gymtracker.model.RecordRequest
+import com.example.gymtracker.model.RecordSubmission
+import com.example.gymtracker.model.RecordsFile
+import com.example.gymtracker.model.RequestsFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
+import java.util.UUID
 
+/**
+ * Repositorio que orquesta la lógica entre el data source local y la capa de UI.
+ * - Guarda solicitudes con vídeo en la carpeta de requests
+ * - Al aceptar una solicitud por el admin, mueve el vídeo a la carpeta de vídeos y actualiza el top3
+ * - Solo se guarda el vídeo del primer puesto; si un primer puesto anterior cae a segundo/tercero su vídeo se elimina
+ */
 class RecordsRepository(private val dataSource: LocalRecordsDataSource) {
-
-    private fun compareSubmissions(a: RecordSubmission, b: RecordSubmission): Int {
-        // orden: peso desc, si empate repeticiones desc
-        return when {
-            a.peso > b.peso -> -1
-            a.peso < b.peso -> 1
-            else -> {
-                when {
-                    a.repeticiones > b.repeticiones -> -1
-                    a.repeticiones < b.repeticiones -> 1
-                    else -> 0
-                }
-            }
-        }
-    }
 
     suspend fun getTopsForExercise(ejercicioId: Int): List<RecordSubmission> = withContext(Dispatchers.IO) {
         val file = dataSource.loadAllRecords()
-        val entry = file.exercises.find { it.ejercicioId == ejercicioId }
+        val entry = file.exercises.firstOrNull { it.ejercicioId == ejercicioId }
         entry?.tops ?: emptyList()
     }
 
     suspend fun wouldEnterTop3(ejercicioId: Int, candidate: RecordSubmission): Boolean = withContext(Dispatchers.Default) {
-        val current = getTopsForExercise(ejercicioId)
-        val mutable = current.toMutableList()
-        mutable.add(candidate)
-        mutable.sortWith { a, b -> compareSubmissions(a, b) }
-        val index = mutable.indexOf(candidate)
-        index in 0..2
+        val file = dataSource.loadAllRecords()
+        val entry = file.exercises.firstOrNull { it.ejercicioId == ejercicioId }
+        val tops = entry?.tops ?: emptyList()
+        if (tops.size < 3) return@withContext true
+        // comparar con el peor de los tres (último)
+        val worst = tops.sortedWith(compareByDescending<RecordSubmission> { it.peso }.thenByDescending { it.repeticiones }).take(3).last()
+        return@withContext compareSubmissions(candidate, worst) > 0
     }
 
-    data class SubmitResult(val success: Boolean, val message: String? = null, val newIndex: Int? = null, val savedVideoPath: String? = null)
+    suspend fun createRequest(ejercicioId: Int, submission: RecordSubmission, videoUri: Uri): String? = withContext(Dispatchers.IO) {
+        // Guardar vídeo en carpeta de requests
+        val savedPath = dataSource.saveRequestVideo(ejercicioId, submission.usuarioId, videoUri)
+        if (savedPath == null) return@withContext null
 
-    suspend fun submitMarca(
-        ejercicioId: Int,
-        usuarioId: Int,
-        candidate: RecordSubmission,
-        videoUri: Uri?
-    ): SubmitResult = withContext(Dispatchers.IO) {
-        if (videoUri == null) {
-            return@withContext SubmitResult(false, "Se requiere un vídeo para enviar la marca")
+        val id = UUID.randomUUID().toString()
+        val req = RecordRequest(id = id, ejercicioId = ejercicioId, submission = submission.copy(videoPath = null), videoPath = savedPath)
+
+        val requestsFile = dataSource.loadAllRequests()
+        val newList = requestsFile.requests.toMutableList()
+        newList.add(req)
+        dataSource.saveAllRequests(RequestsFile(newList))
+        return@withContext id
+    }
+
+    suspend fun loadAllRequests(): RequestsFile = withContext(Dispatchers.IO) {
+        dataSource.loadAllRequests()
+    }
+
+    suspend fun adminAcceptRequest(requestId: String) = withContext(Dispatchers.IO) {
+        val requestsFile = dataSource.loadAllRequests()
+        val req = requestsFile.requests.firstOrNull { it.id == requestId } ?: return@withContext
+
+        // mover vídeo de requests a vídeos
+        val movedVideoPath = dataSource.moveRequestVideoToVideos(req.videoPath, req.ejercicioId, req.submission.usuarioId)
+
+        // cargar registros actuales
+        val recordsFile = dataSource.loadAllRecords()
+        val entries = recordsFile.exercises.toMutableList()
+        val index = entries.indexOfFirst { it.ejercicioId == req.ejercicioId }
+        val existingEntry = if (index >= 0) entries[index] else null
+
+        val mutableTops = existingEntry?.tops?.toMutableList() ?: mutableListOf()
+
+        // construir la nueva submission; por defecto sin video, lo asignaremos solo al primero
+        val newSubmission = req.submission.copy(videoPath = null)
+        mutableTops.add(newSubmission)
+
+        // ordenar y mantener top3
+        val sorted = mutableTops.sortedWith(compareByDescending<RecordSubmission> { it.peso }.thenByDescending { it.repeticiones }).take(3).toMutableList()
+
+        // gestionar vídeos: solo el primero debe tener vídeo almacenado
+        // 1) Si el movedVideoPath es null -> no hay vídeo (fallo). En ese caso no asignamos vídeo y procedemos.
+        // 2) Si la nueva submission quedó primera -> asignarle movedVideoPath
+        // 3) Si no quedó primera -> borramos movedVideoPath (no interesa conservar)
+
+        // identificar si la newSubmission is first by matching usuarioId/fecha/peso/repeticiones
+        val first = sorted.firstOrNull()
+        var newAssigned = false
+        if (movedVideoPath != null && first != null && isSameSubmission(first, newSubmission)) {
+            // asignar el vídeo al primer elemento (que es la nueva submission)
+            sorted[0] = first.copy(videoPath = movedVideoPath)
+            newAssigned = true
         }
 
-        val enters = wouldEnterTop3(ejercicioId, candidate)
-        if (!enters) {
-            return@withContext SubmitResult(false, "La marca no entra en el top3")
+        // si movedVideoPath exists but wasn't assigned to first, eliminar el fichero movido
+        if (movedVideoPath != null && !newAssigned) {
+            dataSource.deleteVideo(movedVideoPath)
         }
 
-        val file = dataSource.loadAllRecords()
-        val exercises = file.exercises.toMutableList()
-        var entry = exercises.find { it.ejercicioId == ejercicioId }
-
-        val now = DateTimeFormatter.ISO_INSTANT.format(Instant.now().atOffset(ZoneOffset.UTC))
-
-        if (entry == null) {
-            entry = RecordExerciseEntry(
-                ejercicioId = ejercicioId,
-                nombre = candidate.usuarioId.toString(),
-                tops = listOf(),
-                updatedAt = now
-            )
-            exercises.add(entry)
-        }
-
-        val topsMutable = entry.tops.toMutableList()
-
-        val simulated = topsMutable.toMutableList()
-        simulated.add(candidate)
-        simulated.sortWith { a, b -> compareSubmissions(a, b) }
-        val newIndex = simulated.indexOf(candidate)
-
-        var savedVideoPath: String? = null
-        if (newIndex == 0) {
-            val path = dataSource.saveVideoForExercise(ejercicioId, candidate.usuarioId, videoUri)
-            if (path == null) {
-                return@withContext SubmitResult(false, "Error guardando el vídeo")
-            }
-            savedVideoPath = path
-        }
-
-        val candidateWithVideo = if (savedVideoPath != null) candidate.copy(videoPath = savedVideoPath) else candidate.copy(videoPath = null)
-
-        topsMutable.add(candidateWithVideo)
-        topsMutable.sortWith { a, b -> compareSubmissions(a, b) }
-        val limited = topsMutable.take(10)
-
-        val processedTops = limited.mapIndexed { idx, sub ->
-            if (idx == 0) {
-                sub
-            } else {
-                if (sub.videoPath != null) {
-                    try {
-                        dataSource.deleteVideo(sub.videoPath)
-                    } catch (_: Exception) {
-                    }
-                    sub.copy(videoPath = null)
-                } else sub
-            }
-        }
-
-        val newTopVideo = processedTops.firstOrNull()?.videoPath
-        val oldVideoPaths = topsMutable.mapNotNull { it.videoPath }.toSet()
-        for (old in oldVideoPaths) {
-            if (old != newTopVideo) {
-                try {
-                    dataSource.deleteVideo(old)
-                } catch (_: Exception) {
-                }
+        // si había un antiguo primer puesto y ahora ya no es primero, borrar su vídeo
+        val previousFirst = existingEntry?.tops?.firstOrNull()
+        if (previousFirst != null) {
+            // comprobar si previousFirst sigue siendo first en sorted; si no, borrar su vídeo
+            val stillFirst = sorted.firstOrNull()?.let { isSameSubmission(it, previousFirst) } ?: false
+            if (!stillFirst) {
+                previousFirst.videoPath?.let { dataSource.deleteVideo(it) }
             }
         }
 
+        // reconstruir/insertar entry
         val newEntry = RecordExerciseEntry(
-            ejercicioId = entry.ejercicioId,
-            nombre = entry.nombre,
-            tops = processedTops,
-            updatedAt = now
+            ejercicioId = req.ejercicioId,
+            nombre = existingEntry?.nombre ?: "",
+            tops = sorted,
+            updatedAt = null
         )
 
-        val newList = exercises.map { if (it.ejercicioId == ejercicioId) newEntry else it }
-        val newFile = RecordsFile(exercises = newList)
-        dataSource.saveAllRecords(newFile)
+        if (index >= 0) {
+            entries[index] = newEntry
+        } else {
+            entries.add(newEntry)
+        }
 
-        SubmitResult(true, "Marca subida", newIndex, savedVideoPath)
+        dataSource.saveAllRecords(RecordsFile(entries))
+
+        // eliminar la solicitud del fichero de requests
+        val newRequests = requestsFile.requests.filterNot { it.id == requestId }
+        dataSource.saveAllRequests(RequestsFile(newRequests))
+    }
+
+    suspend fun adminRejectRequest(requestId: String) = withContext(Dispatchers.IO) {
+        val requestsFile = dataSource.loadAllRequests()
+        val req = requestsFile.requests.firstOrNull { it.id == requestId } ?: return@withContext
+
+        // borrar vídeo de la carpeta de requests
+        dataSource.deleteRequestVideo(req.videoPath)
+
+        val newRequests = requestsFile.requests.filterNot { it.id == requestId }
+        dataSource.saveAllRequests(RequestsFile(newRequests))
+    }
+
+    private fun compareSubmissions(a: RecordSubmission, b: RecordSubmission): Int {
+        val byPeso = a.peso.compareTo(b.peso)
+        if (byPeso != 0) return byPeso
+        return a.repeticiones.compareTo(b.repeticiones)
+    }
+
+    private fun isSameSubmission(a: RecordSubmission, b: RecordSubmission): Boolean {
+        return a.usuarioId == b.usuarioId && a.peso == b.peso && a.repeticiones == b.repeticiones && a.fecha == b.fecha
     }
 }

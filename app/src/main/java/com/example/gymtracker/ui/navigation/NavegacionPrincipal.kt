@@ -34,6 +34,7 @@ import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.screens.actual_training.EntrenamientoViewModel
 import com.example.gymtracker.ui.screens.actual_training.PantallaInicioEntreno
 import com.example.gymtracker.ui.screens.admin.PantallaAdmin
+import com.example.gymtracker.ui.screens.admin.PantallaManejoMarcas
 import com.example.gymtracker.ui.screens.calendar.PantallaCalendario
 import com.example.gymtracker.ui.screens.exercises.PantallaEjercicios
 import com.example.gymtracker.ui.screens.exercises.PantallaEjerciciosPorMusculo
@@ -505,7 +506,9 @@ fun NavegadorPrincipal(
                 }
 
                 composable(Rutas.MANEJO_MARCAS_ADMIN.ruta){
-
+                    PantallaManejoMarcas(
+                        onBack = { navController.popBackStack() }
+                    )
                 }
             }
         }
