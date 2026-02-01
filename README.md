@@ -44,7 +44,7 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 ## Flujo del programa
 
 1. Un usuario se registra en la aplicación mediante la [`PantallaRegistro`](app/src/main/java/com/example/gymtracker/ui/screens/register/PantallaRegistro.kt). El usuario introduce sus credenciales, y tras una comprobación de estas y una comprobación del View Model, al pulsar el botón de registro, se llama a la acción `registroExitoso`, que redirecta a la [`PantallaFormulario`](app/src/main/java/com/example/gymtracker/ui/screens/form/PantallaFormulario.kt).
-2. En esta nueva pantalla, el usuario rellena sus datos físicos como Edad o Altura. Según sus datos, se generará una rutina automáticamente gracias al método de [`FormularioViewModel.guardarPerfil()`](https://github.com/moraalees/ProyectoFinal_DIN_25-26/blob/b683a7a23fb1802979d958040408d792c6c73226/app/src/main/java/com/example/gymtracker/ui/screens/form/FormularioViewModel.kt#L16C5-L44C6). Aquí, se llama al [`RepositorioUsuarioGimnasio`](app/src/main/java/com/example/gymtracker/data/repository/UsuarioGimnasioRepository.kt) y gracias al objeto [`EntrenoRepository`](app/src/main/java/com/example/gymtracker/data/repository/EntrenoRepository.kt), dependiendo del perfil de gimnasio que tenga el usuario, genera la rutina adecuada. Una vez se ha creado, el usuario será redirigidoo a la [`PantallaPrincipal`](app/src/main/java/com/example/gymtracker/ui/screens/home/PantallaPrincipal.kt).
+2. En esta nueva pantalla, el usuario rellena sus datos físicos como Edad o Altura. Según sus datos, se generará una rutina automáticamente gracias al método de [`FormularioViewModel.guardarPerfil()`]. Aquí, se llama al [`RepositorioUsuarioGimnasio`](app/src/main/java/com/example/gymtracker/data/repository/UsuarioGimnasioRepository.kt) y gracias al objeto [`EntrenoRepository`](app/src/main/java/com/example/gymtracker/data/repository/EntrenoRepository.kt), dependiendo del perfil de gimnasio que tenga el usuario, genera la rutina adecuada. Una vez se ha creado, el usuario será redirigidoo a la [`PantallaPrincipal`](app/src/main/java/com/example/gymtracker/ui/screens/home/PantallaPrincipal.kt).
 3. Aquí, el usuario podrá navegar a varios sitios de la aplicación, gracias al [`TopAppBar`](app/src/main/java/com/example/gymtracker/ui/navigation/MiTopBar.kt) o a la rutina activa de su perfil de gimnasio.
 - [`PantallaDatosUsuario`](app/src/main/java/com/example/gymtracker/ui/screens/userdata/PantallaDatosUsuario.kt): Podrá navegar a una pantalla en donde se muestran o bien sus datos personales, como su Enfoque o Peso, o bien sus credenciales, como correo o contraseña.
 - [`PantallaEjercicios`](app/src/main/java/com/example/gymtracker/ui/screens/exercises/PantallaEjercicios.kt): En esta pantalla se muestran todos los ejercicios registrados por defecto o añadidos por el usuario en la aplicación. Todos los ejercicios son obtenidos gracias a [`EjerciciosRepository`](app/src/main/java/com/example/gymtracker/data/repository/EjerciciosRepository.kt), que posee una lista privada con los ejercicios registrados. Debido a varias características del programa, he creado 2 listas diferentes. La primera posee los ejercicios por defecto, mientras que la otra, gracias al método del repositorio `anadirEjercicio`, añade ejercicios creados por el usuario. Además, esta pantalla posee un [`BottomAppBar`](app/src/main/java/com/example/gymtracker/ui/navigation/MiBottomBar.kt), que permite navegar a otras vistas de los ejercicios del sistema. En estas vistas se mostrarán o bien clasificados por TipoPeso, o bien por Músculo que ejercita.
@@ -55,3 +55,34 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 - [`PantallaInicioEntreno`](app/src/main/java/com/example/gymtracker/ui/screens/actual_training/PantallaInicioEntreno.kt): Empezará un entreno. Se mostrarán los ejercicios del día que sea según la rutina activa y pedirá por pantalla un número de repeticiones y un peso. Tras introducirlo, aparecerá un contador de 2 minutos de descanso entre series. El usuario podrá alargar ese tiempo en tramos de 10 segundos o terminar el contador. Aparecerán notificaciones gracias a [`Notificaciones`](app/src/main/java/com/example/gymtracker/ui/utils/Notificaciones.kt). Seguirá así hasta terminar el entreno. Cuando se termine, se guardará el entreno en el día del calendario.
 4. El usuario podrá cerrar su sesión si desea entrar en otra cuenta o de otra forma, en modo administrador.
 5. Si el usuario es administrador, no podrá navegar a las pantallas ya mencionadas, ya que solo tiene disponible [`PantallaAdmin`](app/src/main/java/com/example/gymtracker/ui/screens/admin/PantallaAdmin.kt). Esta pantalla presenta dos botones. El primero, navega a [`PantallaManejoMarcas`](app/src/main/java/com/example/gymtracker/ui/screens/admin/PantallaManejoMarcas.kt) donde se muestran las solicitudes de los usuarios a ser podio de un ejercicio concreto. El administrador verá los vídeos y dictaminará si entra o no al podio. El otro botón sirve para cerrar la sesión.
+
+---
+
+## Características Principales
+
+---
+
+## Justificación de Diseño y Usabilidad
+
+---
+
+## Herramientas y librerías
+
+Aquí se nombrarán herramientas como JetPack compose, NUI, informes...
+
+---
+
+## Empaquetado de la aplicación
+
+---
+
+## Manual de usuario
+
+---
+
+## Pruebas avanzadas
+
+---
+
+## Vídeo de explicación y de uso
+
