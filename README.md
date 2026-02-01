@@ -64,6 +64,42 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 
 ## Justificación de Diseño y Usabilidad
 
+El diseño de la aplicación y sus vistas se ha centrado en ofrecer una experiencia clara, sencilla y coherente para cualquier persona, priorizando a aquellas que no tienen conocimientos previos sobre el mundo del fitness. La estructura por pantallas independientes permite acceder de forma rápida a cada funcionalidad de la aplicación, reduciendo la confusión y evitando recorridos innecesarios.
+
+La navegación se ha unificado mediante barras superiores e inferiores, facilitando el acceso constante a las secciones principales de la aplicación. Como es coherente, en algunas pantallas solo se puede dar marcha atrás, no navegar a una totalemente diferente, como por ejemplo en el caso de añadir ejercicios a un día específico de una rutina. Además, se ha optado por una generación automática de rutinas en función del perfil del usuario, con el fin de denegar totalmente la toma de decisiones inicial con desconocimiento y evitar la desmotivación al comenzar a usar la aplicación.
+
+El uso de componentes reutilizables permite mantener coherencia visual en toda la interfaz, reforzando la estructura de la aplicación y mejorando la comprensión de las acciones disponibles en cada pantalla.
+
+Además, la información dentro de la aplicación se presenta utilizando distintos formatos visuales según su finalidad, con el objetivo de mejorar la comprensión y la navegación. Los ejercicios, rutinas y marcas se muestran tanto en disposición en fila como en rejilla, dependiendo del tipo de contenido y del contexto de uso.
+
+Las vistas en fila se utilizan cuando es necesario mostrar información detallada y fácilmente escaneable, como nombres, datos numéricos o estados del contenido. Por otro lado, las vistas en rejilla permiten una visualización más compacta y visual, facilitando la exploración de múltiples elementos de forma rápida e intuitiva.
+
+Esta combinación de formatos mejora la experiencia de usuario, ya que permite acceder a la información de manera clara, ordenada y adaptada al tipo de interacción, reduciendo el esfuerzo visual y agilizando la toma de decisiones dentro de la aplicación.
+
+### Consideraciones de usabilidad
+
+Se han aplicado principios básicos de usabilidad para garantizar una experiencia fluida y accesible:
+- Interfaces simples y limpias, evitando la sobrecarga de información.
+- Acciones claras mediante botones visibles y textos descriptivos.
+- Reducción de pasos en tareas frecuentes, como iniciar un entrenamiento o consultar rutinas.
+- Visualización de mensajes de error claros cuando se introducen datos incorrectos, ayudando al usuario a corregirlos de forma inmediata y evitando acciones inválidas.
+
+Además, la aplicación permite al usuario visualizar su progreso mediante marcas personales y entrenamientos registrados, lo que refuerza la motivación y fomenta la constancia.
+
+### Consideraciones de accesibilidad
+
+Sobre la accesibilidad, se han tenido en cuenta distintos aspectos para facilitar el uso de la aplicación a un mayor número de usuarios:
+- Uso de colores con buen contraste para mejorar la legibilidad y la diferenciación de elementos en pantalla.
+- Tamaños de texto adecuados y consistentes en todas las vistas de la aplicación.
+- Estructura clara de la información, favoreciendo la comprensión visual y la localización rápida de los elementos.
+- Notificaciones que ayudan al usuario a seguir los tiempos de descanso durante el entrenamiento.
+
+Además, se ha definido una paleta de colores coherente y funcional. El color principal de la aplicación es un azul oscuro, elegido por su buena combinación tanto con fondos claros como oscuros, especialmente con el negro y el blanco, lo que garantiza un contraste adecuado y reduce la fatiga visual durante el uso prolongado de la aplicación.
+
+Para la gestión de errores, se ha utilizado un color diferenciado y fácilmente reconocible, permitiendo al usuario identificar de forma inmediata los campos o acciones incorrectas. Esta diferenciación cromática ayuda a mejorar la accesibilidad visual y evita confusiones, facilitando la corrección de errores sin necesidad de explicaciones adicionales.
+
+Estas decisiones permiten que la aplicación sea comprensible y usable para usuarios con distintos niveles de experiencia, garantizando una experiencia inclusiva, clara y adaptable.
+
 ---
 
 ## Herramientas y librerías
