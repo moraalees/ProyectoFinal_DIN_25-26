@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.enum_classes.Altura
@@ -73,6 +74,15 @@ fun PantallaFormulario(
                 fontSize = 26.sp,
                 color = Color.White,
                 modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            Text(
+                text = "Con estos datos generaremos automáticamente una rutina adaptada a tu perfil y nivel.",
+                fontSize = 14.sp,
+                color = Color.LightGray,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(bottom = 24.dp)
             )
 
             EnumDropdown(
