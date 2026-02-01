@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RequestsAdminViewModel(private val repository: RecordsRepository) : ViewModel() {
+class SolicitudesRecordViewModel(
+    private val repository: RecordsRepository
+): ViewModel() {
 
     private val _solicitudes = MutableStateFlow<List<RecordRequest>>(emptyList())
     val solicitudes: StateFlow<List<RecordRequest>> = _solicitudes.asStateFlow()

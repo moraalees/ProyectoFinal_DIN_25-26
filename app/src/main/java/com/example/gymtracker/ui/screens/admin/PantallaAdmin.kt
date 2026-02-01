@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaAdmin(
@@ -21,7 +22,7 @@ fun PantallaAdmin(
     cerrarSesion: () -> Unit
 ){
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     Column(

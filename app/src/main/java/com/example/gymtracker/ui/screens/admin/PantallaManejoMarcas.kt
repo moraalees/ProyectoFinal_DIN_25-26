@@ -25,10 +25,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gymtracker.data.repository.RecordsRepository
 import com.example.gymtracker.model.RecordRequest
 import com.example.gymtracker.data.local.json.LocalRecordsDataSource
-import com.example.gymtracker.ui.screens.records.RequestsAdminViewModel
+import com.example.gymtracker.ui.screens.records.SolicitudesRecordViewModel
 import com.example.gymtracker.data.local.json.GuardadoJson
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.data.repository.UsuarioRepository
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.google.gson.Gson
 
 @Composable
@@ -44,13 +45,13 @@ fun PantallaManejoMarcas(
     val repo = RecordsRepository(dataSource)
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
-    val viewModel: RequestsAdminViewModel = viewModel(factory = object : androidx.lifecycle.ViewModelProvider.Factory {
+    val viewModel: SolicitudesRecordViewModel = viewModel(factory = object : androidx.lifecycle.ViewModelProvider.Factory {
         override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return RequestsAdminViewModel(repo) as T
+            return SolicitudesRecordViewModel(repo) as T
         }
     })
 

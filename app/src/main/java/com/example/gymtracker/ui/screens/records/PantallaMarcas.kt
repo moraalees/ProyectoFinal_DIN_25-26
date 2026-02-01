@@ -1,7 +1,6 @@
 package com.example.gymtracker.ui.screens.records
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +28,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.gymtracker.data.repository.EntrenamientosRepository
+import com.example.gymtracker.ui.components.FilaMarcaEjercicio
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaMarcas(
@@ -45,7 +46,7 @@ fun PantallaMarcas(
     val uiState by viewModel.uiState.collectAsState()
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     Column(

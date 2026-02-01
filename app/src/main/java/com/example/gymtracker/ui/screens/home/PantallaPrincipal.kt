@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.PlanSemanal
 import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.ui.components.EntrenoDelDiaRotativo
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import java.util.Calendar
 
 @Composable
@@ -39,7 +40,7 @@ fun PantallaPrincipal(
         viewModel.cargarPerfil(usuario)
     }
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
     val rutina = viewModel.rutinaActiva
 

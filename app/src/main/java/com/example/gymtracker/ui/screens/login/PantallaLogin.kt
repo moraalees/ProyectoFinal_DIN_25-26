@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymtracker.R
 import com.example.gymtracker.ui.controllers.ControladorSesion
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaLogin(
@@ -39,7 +40,7 @@ fun PantallaLogin(
     var esAdminLocal by remember { mutableStateOf(false) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     Box(

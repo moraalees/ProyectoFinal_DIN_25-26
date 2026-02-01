@@ -45,6 +45,7 @@ import com.example.gymtracker.model.enum_classes.TipoPeso
 import com.example.gymtracker.ui.components.EjercicioComponent
 import com.example.gymtracker.ui.components.EnumDropdown
 import com.example.gymtracker.ui.controllers.ControladorSesion
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import kotlin.collections.chunked
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -70,7 +71,7 @@ fun PantallaEjerciciosPorTipoPeso(context: Context){
     var mostrarDialog by rememberSaveable { mutableStateOf(false) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     Scaffold(

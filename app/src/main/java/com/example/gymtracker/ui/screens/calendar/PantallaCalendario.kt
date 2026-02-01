@@ -45,6 +45,7 @@ import com.example.gymtracker.model.DiaCalendario
 import com.example.gymtracker.model.Entreno
 import com.example.gymtracker.ui.components.DiaCalendarioItem
 import com.example.gymtracker.ui.screens.actual_training.EntrenamientoViewModel
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -67,7 +68,7 @@ fun PantallaCalendario(
     var diaSeleccionado by remember { mutableStateOf<DiaCalendario?>(null) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     LaunchedEffect(Unit) {

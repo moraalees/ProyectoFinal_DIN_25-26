@@ -36,6 +36,7 @@ import com.example.gymtracker.data.local.json.LocalRecordsDataSource
 import com.example.gymtracker.data.repository.RecordsRepository
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gymtracker.model.RecordExerciseEntry
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import java.io.File
 
 @Composable
@@ -84,7 +85,7 @@ fun PantallaMarcasRecords() {
     }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     LaunchedEffect(Unit) {

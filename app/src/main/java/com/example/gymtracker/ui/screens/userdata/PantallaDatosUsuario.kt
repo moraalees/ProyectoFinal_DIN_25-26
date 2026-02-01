@@ -38,6 +38,7 @@ import com.example.gymtracker.model.enum_classes.Experiencia
 import com.example.gymtracker.model.enum_classes.ModoDatos
 import com.example.gymtracker.ui.components.CampoEditable
 import com.example.gymtracker.ui.components.EnumDropdown
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaDatosUsuario(
@@ -48,7 +49,7 @@ fun PantallaDatosUsuario(
     var modo by rememberSaveable { mutableStateOf(ModoDatos.USUARIO) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     LaunchedEffect(Unit) {

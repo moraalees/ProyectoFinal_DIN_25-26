@@ -30,6 +30,7 @@ import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.ui.components.RutinaSemanalComponente
 import com.example.gymtracker.ui.components.DialogCrearRutina
 import com.example.gymtracker.ui.navigation.Rutas
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaRutinas(
@@ -40,7 +41,7 @@ fun PantallaRutinas(
     val perfil = rutinaViewModel.obtenerPerfil(usuario.id)
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     var mostrarDialog by rememberSaveable { mutableStateOf(false) }

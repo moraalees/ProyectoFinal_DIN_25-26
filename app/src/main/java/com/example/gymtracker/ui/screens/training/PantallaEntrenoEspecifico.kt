@@ -47,6 +47,7 @@ import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.model.Entreno
 import com.example.gymtracker.ui.components.EjercicioComponent
 import com.example.gymtracker.ui.components.EjercicioRutinaComponente
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaEntrenoEspecifico(
@@ -57,7 +58,7 @@ fun PantallaEntrenoEspecifico(
     pantallaAnterior: () -> Unit
 ) {
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     var mostrarDialog by rememberSaveable { mutableStateOf(false) }

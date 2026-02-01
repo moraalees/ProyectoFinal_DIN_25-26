@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.Entreno
 import com.example.gymtracker.model.PlanSemanal
 import com.example.gymtracker.model.SerieResultado
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.utils.cancelarNotificacionDescanso
 import com.example.gymtracker.ui.utils.mostrarNotificacionDescanso
 import com.example.gymtracker.ui.utils.mostrarNotificacionFinDescanso
@@ -86,7 +87,7 @@ fun PantallaInicioEntreno(
     var tiempoRestante by remember { mutableIntStateOf(120) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     fun avanzarSerieOEjercicio() {

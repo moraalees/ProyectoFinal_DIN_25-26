@@ -32,6 +32,7 @@ import com.example.gymtracker.model.enum_classes.Edad
 import com.example.gymtracker.model.enum_classes.Enfoque
 import com.example.gymtracker.model.enum_classes.Experiencia
 import com.example.gymtracker.ui.components.EnumDropdown
+import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
 @Composable
 fun PantallaFormulario(
@@ -51,7 +52,7 @@ fun PantallaFormulario(
     var pesoError by rememberSaveable { mutableStateOf<String?>(null) }
 
     val fondoDesvanecido = Brush.verticalGradient(
-        colors = listOf(Color(0xFF32437E), Color.Black)
+        colors = listOf(AzulOscuroFondo, Color.Black)
     )
 
     Box(
