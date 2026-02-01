@@ -34,6 +34,7 @@ import com.example.gymtracker.model.enum_classes.Enfoque
 import com.example.gymtracker.model.enum_classes.Experiencia
 import com.example.gymtracker.ui.components.EnumDropdown
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun PantallaFormulario(
@@ -142,7 +143,7 @@ fun PantallaFormulario(
             if (pesoError != null) {
                 Text(
                     text = pesoError!!,
-                    color = Color.Red,
+                    color = RojoError,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(start = 4.dp, top = 2.dp)
                 )

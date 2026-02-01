@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.EjercicioPlan
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun EjercicioRutinaComponente(
@@ -180,7 +181,7 @@ fun EjercicioRutinaComponente(
                             mostrarDialog = false
                         }
                     ) {
-                        Text("Borrar", color = Color.Red)
+                        Text("Borrar", color = RojoError)
                     }
                 }
             }

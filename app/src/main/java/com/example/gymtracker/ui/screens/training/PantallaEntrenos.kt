@@ -33,6 +33,7 @@ import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.model.Entreno
 import com.example.gymtracker.ui.screens.routines.RutinasViewModel
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun PantallaEntrenos(
@@ -80,7 +81,7 @@ fun PantallaEntrenos(
                 Spacer(modifier = Modifier.width(30.dp))
                 Text(
                     text = entrenoTexto,
-                    color = if (entreno.esEntreno) Color.Green else Color.Red
+                    color = if (entreno.esEntreno) Color.Green else RojoError
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(

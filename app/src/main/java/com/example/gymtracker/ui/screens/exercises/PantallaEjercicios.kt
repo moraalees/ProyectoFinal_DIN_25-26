@@ -77,7 +77,7 @@ fun PantallaEjercicios(context: Context) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { mostrarDialog = true },
-                containerColor = Color(0xFF32437E),
+                containerColor = AzulOscuroFondo,
                 modifier = Modifier.padding(bottom = 8.dp)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Añadir ejercicio")

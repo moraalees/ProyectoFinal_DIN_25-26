@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun CampoEditable(
@@ -71,7 +72,7 @@ fun CampoEditable(
         if (mensajeError != null) {
             Text(
                 text = mensajeError!!,
-                color = Color.Red,
+                color = RojoError,
                 fontStyle = FontStyle.Italic,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(top = 2.dp)

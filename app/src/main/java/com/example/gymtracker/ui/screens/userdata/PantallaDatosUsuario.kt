@@ -39,6 +39,7 @@ import com.example.gymtracker.model.enum_classes.ModoDatos
 import com.example.gymtracker.ui.components.CampoEditable
 import com.example.gymtracker.ui.components.EnumDropdown
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun PantallaDatosUsuario(
@@ -163,7 +164,7 @@ fun PantallaDatosUsuario(
                 if (pesoError != null) {
                     Text(
                         text = pesoError!!,
-                        color = Color.Red,
+                        color = RojoError,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(start = 4.dp, top = 2.dp)
                     )

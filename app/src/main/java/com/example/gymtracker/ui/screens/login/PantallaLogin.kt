@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.gymtracker.R
 import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
+import com.example.gymtracker.ui.theme.RojoError
 
 @Composable
 fun PantallaLogin(
@@ -124,7 +125,7 @@ fun PantallaLogin(
             if (mensajeError != null) {
                 Text(
                     text = mensajeError!!,
-                    color = Color.Red,
+                    color = RojoError,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
