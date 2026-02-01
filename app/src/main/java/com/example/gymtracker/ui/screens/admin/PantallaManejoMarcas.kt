@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gymtracker.data.records.RecordsRepository
+import com.example.gymtracker.data.repository.RecordsRepository
 import com.example.gymtracker.model.RecordRequest
-import com.example.gymtracker.data.records.LocalRecordsDataSource
+import com.example.gymtracker.data.local.json.LocalRecordsDataSource
 import com.example.gymtracker.ui.screens.records.RequestsAdminViewModel
 import com.example.gymtracker.data.local.json.GuardadoJson
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource

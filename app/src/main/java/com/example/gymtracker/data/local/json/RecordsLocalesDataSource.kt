@@ -1,4 +1,4 @@
-package com.example.gymtracker.data.records
+package com.example.gymtracker.data.local.json
 
 import android.content.Context
 import android.net.Uri

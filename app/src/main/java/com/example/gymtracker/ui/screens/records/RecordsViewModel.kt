@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymtracker.model.RecordSubmission
-import com.example.gymtracker.data.records.RecordsRepository
+import com.example.gymtracker.data.repository.RecordsRepository
 import com.example.gymtracker.model.RecordExerciseEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

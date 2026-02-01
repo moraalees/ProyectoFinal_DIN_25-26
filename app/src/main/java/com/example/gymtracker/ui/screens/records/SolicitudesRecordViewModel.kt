@@ -3,7 +3,7 @@ package com.example.gymtracker.ui.screens.records
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymtracker.model.RecordRequest
-import com.example.gymtracker.data.records.RecordsRepository
+import com.example.gymtracker.data.repository.RecordsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

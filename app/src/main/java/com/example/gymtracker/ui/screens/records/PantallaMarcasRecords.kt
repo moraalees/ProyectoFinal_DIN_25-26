@@ -32,8 +32,8 @@ import com.example.gymtracker.data.local.json.GuardadoJson
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.data.repository.UsuarioRepository
 import com.example.gymtracker.ui.controllers.ControladorSesion
-import com.example.gymtracker.data.records.LocalRecordsDataSource
-import com.example.gymtracker.data.records.RecordsRepository
+import com.example.gymtracker.data.local.json.LocalRecordsDataSource
+import com.example.gymtracker.data.repository.RecordsRepository
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gymtracker.model.RecordExerciseEntry
 import java.io.File
