@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -75,7 +76,11 @@ fun PantallaMarcas(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Buscar"
                 )
-            }
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White
+            )
         )
 
         when (uiState) {
@@ -103,7 +108,8 @@ fun PantallaMarcas(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No hay resultados"
+                            text = "No hay resultados",
+                            color = Color.White
                         )
                     }
                 } else {
