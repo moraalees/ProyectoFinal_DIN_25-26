@@ -13,6 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.example.gymtracker.model.Usuario
 
+/**
+ * Composable que representa la barra superior de la aplicación mostrando información del usuario
+ * y opciones de navegación.
+ *
+ * @param usuario Objeto Usuario que contiene los datos del usuario actual.
+ * @param navegarPantallaCredenciales Lambda que se ejecuta al hacer clic en el ícono de perfil,
+ *        normalmente para navegar a la pantalla de credenciales o perfil del usuario.
+ * @param desplegarMenu Lambda que se ejecuta al hacer clic en el ícono del menú lateral o desplegable.
+ * @param mostrarMenu Booleano que indica si se debe mostrar el ícono del menú (por defecto true).
+ *
+ * Características:
+ * - Muestra el nombre de usuario en el título.
+ * - Incluye un ícono de perfil que permite navegar a la pantalla de credenciales.
+ * - Opcionalmente, muestra un ícono de menú que dispara la acción `desplegarMenu`.
+ * - La barra usa colores personalizados: fondo negro y texto/íconos en blanco.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiTopBar(

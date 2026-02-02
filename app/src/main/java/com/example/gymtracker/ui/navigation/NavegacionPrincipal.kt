@@ -58,6 +58,41 @@ import com.example.gymtracker.ui.screens.userdata.DatosViewModel
 import com.example.gymtracker.ui.screens.userdata.PantallaDatosUsuario
 import kotlinx.coroutines.launch
 
+/**
+ * Composable principal que gestiona la navegación de toda la aplicación de GymTracker.
+ *
+ * Esta función configura:
+ * - Un NavController para manejar la navegación entre pantallas.
+ * - Un ModalNavigationDrawer con un menú lateral que permite acceder rápidamente a diferentes secciones:
+ *   Home, Ejercicios, Rutinas, Marcas, Calendario, Récords y Cerrar sesión.
+ * - Un Scaffold que contiene:
+ *     - TopBar personalizada (MiTopBar) que muestra información del usuario y un menú desplegable.
+ *     - BottomBar (MiBottomBar) que se muestra únicamente en las pantallas de ejercicios.
+ * - La carga de sesión inicial mediante `ControladorSesion` para determinar la pantalla de inicio:
+ *     - Admin → Pantalla de administración.
+ *     - Usuario con perfil → Pantalla principal (Home).
+ *     - Usuario sin perfil → Pantalla de formulario para completar datos.
+ * - Manejo de la navegación a todas las pantallas de la aplicación mediante NavHost y rutas definidas en `Rutas`.
+ *
+ * @param loginViewModel ViewModel para manejar la lógica de inicio de sesión.
+ * @param registerViewModel ViewModel para manejar el registro de nuevos usuarios.
+ * @param formularioViewModel ViewModel para manejar la creación de perfil de usuario.
+ * @param homeViewModel ViewModel de la pantalla principal (Home) que incluye la rutina activa.
+ * @param datosViewModel ViewModel para la edición de datos del usuario.
+ * @param rutinasViewModel ViewModel para manejar rutinas de entrenamiento.
+ * @param entrenamientoViewModel ViewModel para manejar la lógica de entrenamientos diarios.
+ * @param entrenamientoEspecificoViewModel ViewModel para manejar entrenamientos específicos.
+ * @param usuarioDataSource Fuente de datos JSON local para los usuarios.
+ * @param entrenamientosRepository Repositorio de entrenamientos para obtener marcas y registros.
+ * @param context Contexto de la aplicación, se utiliza para acceder a recursos y almacenamiento de sesión.
+ *
+ * Características destacadas:
+ * - Mantiene la sesión activa entre reinicios mediante `ControladorSesion`.
+ * - Determina dinámicamente la pantalla inicial según el tipo de usuario y existencia de perfil.
+ * - Soporta navegación segura entre pantallas, incluyendo paso de parámetros con `savedStateHandle`.
+ * - Maneja la lógica de administración y usuario estándar, mostrando u ocultando opciones según permisos.
+ * - Utiliza Material3 y componentes de Jetpack Compose para la UI.
+ */
 @Composable
 fun NavegadorPrincipal(
     loginViewModel: LoginViewModel,

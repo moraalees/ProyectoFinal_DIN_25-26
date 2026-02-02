@@ -17,6 +17,16 @@ import androidx.compose.ui.unit.dp
 import com.example.gymtracker.model.MarcaPersonal
 import java.time.format.DateTimeFormatter
 
+/**
+ * Composable que muestra una fila con la información de una marca personal de un ejercicio.
+ *
+ * Muestra el nombre del ejercicio, el peso máximo y las repeticiones máximas alcanzadas,
+ * así como la fecha de la marca en formato "dd MMM yyyy". Si no se puede formatear la fecha,
+ * se muestra como "Desconocida".
+ *
+ * @param marca Objeto [MarcaPersonal] con los datos a mostrar.
+ * @param modifier Modificador de Compose para personalizar el layout, padding, etc.
+ */
 @Composable
 fun FilaMarcaEjercicio(
     marca: MarcaPersonal,

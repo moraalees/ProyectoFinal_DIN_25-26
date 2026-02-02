@@ -13,6 +13,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import com.example.gymtracker.model.DiaCalendario
 
+/**
+ * Composable que representa un día en el calendario con su número y color según su estado.
+ *
+ * @param dia Objeto que contiene la fecha, si es del mes actual, si es hoy y los entrenamientos del día.
+ * @param mostrarEntreno Callback que se ejecuta al pulsar el día para mostrar los entrenamientos.
+ */
 @Composable
 fun DiaCalendarioItem(
     dia: DiaCalendario,

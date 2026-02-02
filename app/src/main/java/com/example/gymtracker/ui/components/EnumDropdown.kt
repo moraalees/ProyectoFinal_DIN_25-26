@@ -22,6 +22,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable genérico para mostrar un dropdown de selección basado en un enum.
+ *
+ * Muestra un botón con la opción actualmente seleccionada o una etiqueta por defecto.
+ * Al hacer clic, se despliega un menú con todas las opciones del enum `valoresEnum`.
+ * La opción seleccionada se notifica mediante la lambda `seleccion`.
+ *
+ * El texto de cada opción se transforma para reemplazar guiones bajos por espacios
+ * y capitalizar la primera letra de cada palabra.
+ *
+ * @param T Tipo genérico del enum.
+ * @param etiqueta Texto a mostrar cuando no hay ninguna opción seleccionada.
+ * @param seleccionado Valor actualmente seleccionado del enum, puede ser null.
+ * @param valoresEnum Lista de todos los valores del enum disponibles para seleccionar.
+ * @param seleccion Lambda que se llama al seleccionar un valor del enum.
+ */
 @Composable
 fun <T> EnumDropdown(
     etiqueta: String,

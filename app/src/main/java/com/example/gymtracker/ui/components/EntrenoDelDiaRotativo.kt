@@ -31,6 +31,19 @@ import com.example.gymtracker.model.PlanSemanal
 import kotlinx.coroutines.delay
 import java.util.Calendar
 
+/**
+ * Composable que muestra el entrenamiento correspondiente al día actual de un plan semanal.
+ *
+ * El día se calcula dinámicamente usando la fecha actual y se selecciona el entreno
+ * correspondiente dentro del `PlanSemanal`. Si el día es de descanso, se muestra un
+ * mensaje indicando "Descanso". Si no hay ejercicios para el día, se muestra un aviso.
+ *
+ * Si existen ejercicios, se muestra un Card con el nombre del plan y los detalles
+ * del ejercicio actual (imagen, nombre, series, repeticiones y peso estimado).
+ * Los ejercicios se rotan automáticamente cada 3 segundos para mostrar uno tras otro.
+ *
+ * @param plan PlanSemanal del cual se extrae el entrenamiento del día actual.
+ */
 @Composable
 fun EntrenoDelDiaRotativo(
     plan: PlanSemanal

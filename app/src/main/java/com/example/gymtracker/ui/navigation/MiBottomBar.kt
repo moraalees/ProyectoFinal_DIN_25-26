@@ -20,6 +20,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+/**
+ * Composable que muestra una barra de navegación inferior con tres opciones para navegar entre
+ * diferentes pantallas de ejercicios.
+ *
+ * @param navController Controlador de navegación usado para cambiar entre rutas.
+ *
+ * La barra tiene tres ítems:
+ * 1. "Ejercicios": Navega a la pantalla principal de ejercicios.
+ * 2. "Ejs Por Musculo": Navega a la pantalla de ejercicios filtrados por músculo.
+ * 3. "Ejs Por Tipo Peso": Navega a la pantalla de ejercicios filtrados por tipo de peso.
+ *
+ * El ítem correspondiente a la ruta actual se resalta, y al hacer clic en un ítem se realiza
+ * la navegación correspondiente respetando las opciones de `launchSingleTop` y `popUpTo` cuando es necesario.
+ */
 @Composable
 fun MiBottomBar(navController: NavController){
     val rutaActual = navController

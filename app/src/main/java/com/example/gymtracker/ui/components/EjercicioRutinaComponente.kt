@@ -38,6 +38,23 @@ import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.EjercicioPlan
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Composable que representa un ejercicio dentro de una rutina mostrando sus detalles principales
+ * y permitiendo editar o eliminar el ejercicio.
+ *
+ * Muestra un Card con:
+ * - Imagen y nombre del ejercicio.
+ * - Número de series, rango de repeticiones y peso estimado.
+ *
+ * Al hacer clic en el Card se abre un AlertDialog para:
+ * - Modificar series, repeticiones inicial/final y peso estimado.
+ * - Confirmar los cambios con un callback `onActualizarEjercicio`.
+ * - Cancelar la edición o eliminar el ejercicio con `onBorrarEjercicio`.
+ *
+ * @param ejercicioPlan El ejercicio de la rutina con sus parámetros actuales.
+ * @param onActualizarEjercicio Callback que se ejecuta al guardar cambios en el ejercicio.
+ * @param onBorrarEjercicio Callback que se ejecuta al eliminar el ejercicio de la rutina.
+ */
 @Composable
 fun EjercicioRutinaComponente(
     ejercicioPlan: EjercicioPlan,

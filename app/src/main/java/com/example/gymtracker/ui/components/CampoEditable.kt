@@ -22,6 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Composable que muestra un campo de texto editable con validación de errores.
+ *
+ * @param label Texto que se muestra como etiqueta del campo.
+ * @param valorActual Valor inicial o actual del campo.
+ * @param validadorErrores Función opcional que recibe el texto actual y devuelve un mensaje de error o null si es válido.
+ * @param onGuardar Callback que se ejecuta al guardar el nuevo valor.
+ */
 @Composable
 fun CampoEditable(
     label: String,
@@ -98,11 +106,15 @@ fun CampoEditable(
                         mensajeError = error
                     }
                 }) {
-                    Text("Guardar")
+                    Text(
+                        text = "Guardar"
+                    )
                 }
             } else {
                 TextButton(onClick = { editando = true }) {
-                    Text("Editar")
+                    Text(
+                        text = "Editar"
+                    )
                 }
             }
         }

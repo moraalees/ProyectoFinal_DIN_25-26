@@ -22,6 +22,13 @@ import androidx.compose.ui.unit.dp
 import com.example.gymtracker.data.repository.EjerciciosRepository
 import com.example.gymtracker.model.RecordExerciseEntry
 
+/**
+ * Composable que muestra una tarjeta de un ejercicio con su récord.
+ *
+ * @param entry Entrada con los datos del ejercicio y sus tops.
+ * @param obtenerUsuario Función que recibe un ID de usuario y devuelve su nombre.
+ * @param onClick Callback que se ejecuta al hacer click en la tarjeta.
+ */
 @Composable
 fun CardEjercicioRecord(
     entry: RecordExerciseEntry,

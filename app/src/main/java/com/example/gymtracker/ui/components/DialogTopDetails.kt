@@ -22,6 +22,21 @@ import com.example.gymtracker.model.RecordExerciseEntry
 import com.example.gymtracker.model.RecordSubmission
 import java.time.LocalDate
 
+/**
+ * Composable que muestra un diálogo con los detalles del top de un ejercicio y permite al usuario
+ * enviar su propia marca personal con un vídeo asociado.
+ *
+ * Muestra los tres mejores registros del ejercicio, permite ingresar peso y repeticiones,
+ * seleccionar un vídeo y comprobar si la nueva marca entraría en el top 3.
+ *
+ * @param entry Entrada del ejercicio con su top de marcas.
+ * @param usuarioId ID del usuario actual que está intentando enviar una marca.
+ * @param getUsername Función para obtener el nombre de usuario a partir de su ID.
+ * @param onClose Callback que se ejecuta al cerrar el diálogo.
+ * @param checkWouldEnter Callback que verifica si la marca propuesta entraría en el top 3.
+ * @param onRequestSubmit Callback que se ejecuta al enviar la marca con el vídeo opcional.
+ * @param onPlayVideo Callback que se ejecuta para reproducir el vídeo de una marca existente.
+ */
 @Composable
 fun DialogTopDetails(
     entry: RecordExerciseEntry,

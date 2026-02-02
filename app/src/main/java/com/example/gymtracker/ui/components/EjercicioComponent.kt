@@ -43,7 +43,20 @@ import androidx.compose.ui.window.Dialog
 import com.example.gymtracker.model.EjercicioBase
 import com.example.gymtracker.model.EjercicioPlan
 
-
+/**
+ * Composable que muestra la información de un ejercicio y permite al usuario:
+ * - Ver detalles como nombre, descripción, tipo de peso y músculos trabajados.
+ * - Abrir un diálogo para configurar series, repeticiones y peso estimado.
+ * - Añadir el ejercicio configurado a una rutina mediante un callback opcional.
+ *
+ * Muestra un Card principal con la imagen y nombre del ejercicio. Al hacer clic se abre un
+ * diálogo con la descripción completa y opciones de cierre o añadir a rutina. Si se elige
+ * añadir a rutina, se abre un segundo diálogo para configurar parámetros antes de confirmar.
+ *
+ * @param ejercicio El ejercicio base que se muestra.
+ * @param onAgregar Callback opcional que se ejecuta al confirmar la adición del ejercicio
+ *                 configurado a una rutina. Recibe un objeto `EjercicioPlan`.
+ */
 @Composable
 fun EjercicioComponent(
     ejercicio: EjercicioBase,

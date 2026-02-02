@@ -24,6 +24,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.gymtracker.model.DiaSeleccion
 
+/**
+ * Composable que muestra un diálogo para crear una nueva rutina semanal.
+ *
+ * Permite ingresar el nombre de la rutina y seleccionar los días de la semana en los que se realizará.
+ *
+ * @param onDismiss Callback que se ejecuta al cerrar el diálogo sin crear la rutina.
+ * @param onCrear Callback que se ejecuta al confirmar la creación de la rutina, proporcionando el nombre y un listado de booleanos indicando los días seleccionados.
+ */
 @Composable
 fun DialogCrearRutina(
     onDismiss: () -> Unit,

@@ -37,6 +37,18 @@ import com.example.gymtracker.model.UsuarioGimnasio
 import com.example.gymtracker.ui.navigation.Rutas
 import com.example.gymtracker.ui.screens.routines.RutinasViewModel
 
+/**
+ * Composable que muestra un resumen visual de una rutina semanal.
+ *
+ * Muestra el nombre de la rutina y un indicador por día (círculo verde para día de entrenamiento,
+ * rojo para día de descanso). Al hacer clic en la tarjeta, se abre un diálogo con acciones sobre la rutina:
+ * establecer como activa, borrar, modificar o cancelar.
+ *
+ * @param plan [PlanSemanal] que representa la rutina a mostrar.
+ * @param rutinaViewModel ViewModel encargado de manejar las acciones sobre la rutina.
+ * @param perfil [UsuarioGimnasio] del usuario al que pertenece la rutina.
+ * @param onModificar Lambda que se ejecuta cuando el usuario desea modificar la rutina.
+ */
 @Composable
 fun RutinaSemanalComponente(
     plan: PlanSemanal,

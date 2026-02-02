@@ -6,6 +6,11 @@ import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.model.SesionPersistida
 import com.example.gymtracker.model.Usuario
 
+/**
+ * Objeto singleton que controla el estado de sesión del usuario en la aplicación.
+ *
+ * Permite iniciar, cerrar y cargar sesiones, así como obtener y actualizar el usuario actualmente logueado.
+ */
 object ControladorSesion {
     private var usuarioActual: Usuario? = null
 
@@ -35,5 +40,4 @@ object ControladorSesion {
     }
 
     fun usuarioLogueado(): Usuario? = usuarioActual
-    fun haySesionActiva(): Boolean = usuarioActual != null
 }

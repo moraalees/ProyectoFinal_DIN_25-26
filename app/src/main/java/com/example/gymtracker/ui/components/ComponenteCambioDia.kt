@@ -16,6 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gymtracker.model.DiaSeleccion
 
+/**
+ * Composable que representa un día seleccionable con un indicador de activo/inactivo.
+ *
+ * @param dia Objeto que contiene la etiqueta y el estado activo del día.
+ * @param onClick Callback que se ejecuta al pulsar el componente.
+ */
 @Composable
 fun ComponenteCambioDia(
     dia: DiaSeleccion,
