@@ -3,6 +3,17 @@ package com.example.gymtracker.data.local.json
 import android.content.Context
 import java.io.FileNotFoundException
 
+/**
+ * Utilidad para leer y escribir archivos JSON en el almacenamiento interno de la aplicación.
+ *
+ * Esta clase permite guardar cadenas JSON en archivos locales y leerlas posteriormente.
+ *
+ * Funciones principales:
+ * - [escribirArchivoJson]: Guarda una cadena JSON en un archivo. Sobrescribe el archivo si ya existe.
+ * - [leerArchivoJson]: Lee el contenido de un archivo JSON. Devuelve `null` si el archivo no existe.
+ *
+ * @property contexto Contexto de la aplicación, usado para acceder al sistema de archivos.
+ */
 class GuardadoJson(
     private val contexto: Context
 ) {

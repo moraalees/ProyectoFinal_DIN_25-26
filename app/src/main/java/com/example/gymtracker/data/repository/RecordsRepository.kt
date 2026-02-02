@@ -11,8 +11,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
+/**
+ * Repositorio para manejar los records y solicitudes de ejercicios.
+ *
+ * Este repositorio permite:
+ * - Obtener los mejores registros (tops) de un ejercicio.
+ * - Evaluar si una nueva marca podría entrar al top 3.
+ * - Crear solicitudes de nuevo record con video.
+ * - Administrar la aceptación o rechazo de solicitudes.
+ *
+ * Funciones principales:
+ * - [getTopsForExercise]: Obtiene los mejores registros para un ejercicio.
+ * - [wouldEnterTop3]: Determina si una nueva marca entraría al top 3.
+ * - [createRequest]: Crea una solicitud de nuevo record con video.
+ * - [loadAllRequests]: Carga todas las solicitudes pendientes.
+ * - [adminAcceptRequest]: Acepta una solicitud y actualiza records.
+ * - [adminRejectRequest]: Rechaza una solicitud y elimina su video.
+ * - Funciones privadas: [compareSubmissions], [isSameSubmission] usadas internamente para orden y comparación.
+ */
 class RecordsRepository(private val dataSource: LocalRecordsDataSource) {
-
     suspend fun getTopsForExercise(ejercicioId: Int): List<RecordSubmission> =
         withContext(Dispatchers.IO) {
             val file = dataSource.loadAllRecords()

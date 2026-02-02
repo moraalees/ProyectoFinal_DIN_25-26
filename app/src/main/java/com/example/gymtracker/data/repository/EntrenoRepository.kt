@@ -14,7 +14,22 @@ import com.example.gymtracker.model.enum_classes.Enfoque
 import com.example.gymtracker.model.enum_classes.TipoPeso
 import kotlin.math.roundToInt
 
-
+/**
+ * Repositorio para generar planes semanales de entrenamiento para usuarios de gimnasio.
+ *
+ * Este objeto permite:
+ * - Crear planes semanales basados en el perfil del usuario.
+ * - Generar planes a partir de plantillas predefinidas.
+ * - Calcular parámetros de entrenamiento según enfoque y experiencia.
+ * - Estimar pesos para los ejercicios según el tipo de peso y experiencia del usuario.
+ *
+ * Funciones principales:
+ * - [generarPlanSemanal]: Genera un plan semanal según el perfil del usuario.
+ * - [generarPlanSemanalDesdePlantilla]: Genera un plan semanal usando una plantilla específica.
+ * - [generarDesdePlantilla]: Función interna que crea el plan a partir de una plantilla.
+ * - [calcularParametros]: Calcula series, repeticiones y peso estimado según perfil.
+ * - [estimarPeso]: Estima el peso para un ejercicio según tipo y experiencia del usuario.
+ */
 object EntrenoRepository {
     fun generarPlanSemanal(perfil: UsuarioGimnasio): PlanSemanal {
         val plantilla = PlantillaPlanesRepository.obtenerPlan(

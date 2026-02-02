@@ -6,6 +6,21 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.FileNotFoundException
 
+/**
+ * Fuente de datos para manejar ejercicios en formato JSON.
+ *
+ * Esta clase permite almacenar y recuperar una lista de ejercicios para un usuario específico
+ * utilizando archivos locales dentro del contexto de la aplicación.
+ *
+ * Funciones principales:
+ * - [obtenerEjercicios]: Obtiene la lista de ejercicios de un usuario desde un archivo JSON.
+ *   Devuelve una lista vacía si no existe el archivo.
+ * - [guardarEjercicios]: Guarda una lista de ejercicios de un usuario en un archivo JSON.
+ *   Sobrescribe el archivo si ya existe.
+ *
+ * @property contexto Contexto de la aplicación, usado para acceder al sistema de archivos.
+ * @property gson Instancia de Gson para serializar y deserializar objetos JSON.
+ */
 class EjerciciosJsonDataSource(
     private val contexto: Context,
     private val gson: Gson

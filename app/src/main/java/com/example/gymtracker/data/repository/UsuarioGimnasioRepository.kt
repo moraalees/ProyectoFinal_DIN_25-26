@@ -3,6 +3,19 @@ package com.example.gymtracker.data.repository
 import com.example.gymtracker.data.local.json.UsuarioGimnasioJsonDataSource
 import com.example.gymtracker.model.UsuarioGimnasio
 
+/**
+ * Repositorio para manejar los perfiles de usuarios de gimnasio.
+ *
+ * Este repositorio permite:
+ * - Guardar o actualizar un perfil de usuario.
+ * - Obtener un perfil por su ID de usuario.
+ * - Asignar planes de entrenamiento a un perfil.
+ *
+ * Funciones principales:
+ * - [guardarPerfil]: Guarda o actualiza un perfil de usuario.
+ * - [obtenerPerfilPorUsuario]: Obtiene un perfil según el ID de usuario.
+ * - [asignarRutina]: Asigna un plan semanal generado al perfil del usuario.
+ */
 class UsuarioGimnasioRepository(
     private val usuarioGimnasioDS: UsuarioGimnasioJsonDataSource
 ) {

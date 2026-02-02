@@ -7,6 +7,17 @@ import com.example.gymtracker.model.enum_classes.Enfoque
 import com.example.gymtracker.model.enum_classes.Experiencia
 import com.example.gymtracker.model.enum_classes.TipoRutina
 
+/**
+ * Repositorio de plantillas de planes semanales de entrenamiento.
+ *
+ * Este objeto permite:
+ * - Obtener un plan semanal según el enfoque y experiencia del usuario.
+ * - Mantener internamente todas las plantillas predefinidas para distintos niveles y objetivos.
+ *
+ * Funciones principales:
+ * - [obtenerPlan]: Devuelve la plantilla correspondiente al enfoque y experiencia proporcionados.
+ * - Propiedades privadas que contienen las plantillas para cada combinación de enfoque y experiencia.
+ */
 object PlantillaPlanesRepository {
 
     fun obtenerPlan(

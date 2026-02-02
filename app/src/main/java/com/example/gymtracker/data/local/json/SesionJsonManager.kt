@@ -5,6 +5,17 @@ import com.example.gymtracker.model.SesionPersistida
 import com.google.gson.Gson
 import java.io.FileNotFoundException
 
+/**
+* Administrador de sesión persistida en formato JSON.
+*
+* Este objeto permite guardar, cargar y borrar la sesión actual de un usuario
+* utilizando un archivo local llamado `sesion.json` en el almacenamiento interno de la aplicación.
+*
+* Funciones principales:
+* - [guardar]: Guarda una sesión de usuario en el archivo `sesion.json`.
+* - [cargar]: Carga la sesión guardada desde el archivo `sesion.json`. Devuelve `null` si no existe.
+* - [borrarSesion]: Borra la sesión actual, reemplazándola por una sesión vacía con `usuarioActualId = null`.
+*/
 object SesionJsonManager {
     private const val NOMBRE_ARCHIVO = "sesion.json"
     private val gson = Gson()

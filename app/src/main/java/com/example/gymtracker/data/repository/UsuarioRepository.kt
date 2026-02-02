@@ -3,6 +3,21 @@ package com.example.gymtracker.data.repository
 import com.example.gymtracker.data.local.json.UsuarioJsonDataSource
 import com.example.gymtracker.model.Usuario
 
+/**
+ * Repositorio para manejar la gestión de usuarios.
+ *
+ * Este repositorio permite:
+ * - Obtener un usuario por su ID.
+ * - Registrar un nuevo usuario.
+ * - Iniciar sesión validando credenciales.
+ * - Actualizar datos del usuario como nombre, nombre de usuario, correo y contraseña.
+ *
+ * Funciones principales:
+ * - [obtenerUsuarioPorId]: Devuelve un usuario según su ID.
+ * - [registrarUsuario]: Registra un nuevo usuario si el correo no está en uso.
+ * - [iniciarSesion]: Valida credenciales y devuelve el usuario si son correctas.
+ * - [cambiarNombre], [cambiarNombreUsuario], [cambiarCorreo], [cambiarContrasena]: Actualizan los datos del usuario.
+ */
 class UsuarioRepository(
     private val dsUsuario: UsuarioJsonDataSource
 ) {

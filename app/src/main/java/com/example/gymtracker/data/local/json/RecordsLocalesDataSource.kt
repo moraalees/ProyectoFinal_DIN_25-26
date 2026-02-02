@@ -16,6 +16,31 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * Fuente de datos local para manejar registros, solicitudes y videos de ejercicios.
+ *
+ * Esta clase permite:
+ * - Guardar y cargar todos los registros (`RecordsFile`) y solicitudes (`RequestsFile`) en JSON.
+ * - Guardar videos de ejercicios y videos de solicitudes en carpetas separadas.
+ * - Borrar videos existentes.
+ * - Mover videos de solicitudes a la carpeta principal de videos.
+ *
+ * Todas las operaciones de I/O se realizan en `Dispatchers.IO` de manera segura.
+ *
+ * Funciones principales:
+ * - [loadAllRecords]: Carga todos los registros desde el archivo `records.json`. Devuelve un `RecordsFile` vacío si no existe o hay error.
+ * - [saveAllRecords]: Guarda todos los registros en el archivo `records.json`.
+ * - [loadAllRequests]: Carga todas las solicitudes desde `requests.json`. Devuelve un `RequestsFile` vacío si no existe o hay error.
+ * - [saveAllRequests]: Guarda todas las solicitudes en el archivo `requests.json`.
+ * - [saveVideoForExercise]: Guarda un video de un ejercicio en la carpeta `videos/` y devuelve la ruta relativa.
+ * - [saveRequestVideo]: Guarda un video de solicitud en la carpeta `requests_videos/` y devuelve la ruta relativa.
+ * - [deleteVideo]: Elimina un video de la carpeta `videos/` dado su path relativo.
+ * - [deleteRequestVideo]: Elimina un video de la carpeta `requests_videos/` dado su path relativo.
+ * - [moveRequestVideoToVideos]: Mueve un video de solicitud a la carpeta principal `videos/` y devuelve la nueva ruta relativa.
+ *
+ * @property context Contexto de la aplicación, usado para acceder al sistema de archivos.
+ * @property gson Instancia de Gson para serializar y deserializar objetos JSON. Por defecto se crea una nueva instancia.
+ */
 class LocalRecordsDataSource(private val context: Context, private val gson: Gson = Gson()) {
 
     private val recordsDirName = "records"
@@ -42,7 +67,6 @@ class LocalRecordsDataSource(private val context: Context, private val gson: Gso
             val data: RecordsFile = gson.fromJson(json, type)
             data
         } catch (e: Exception) {
-            // en caso de error, devolver estructura vacía
             RecordsFile()
         }
     }
@@ -72,9 +96,6 @@ class LocalRecordsDataSource(private val context: Context, private val gson: Gso
         file.writeText(json)
     }
 
-    /**
-     * Copia el vídeo referenciado por sourceUri al storage interno y devuelve la ruta relativa (p. ej. "videos/52_167..._usuario.mp4").
-     */
     suspend fun saveVideoForExercise(ejercicioId: Int, usuarioId: Int, sourceUri: Uri): String? = withContext(Dispatchers.IO) {
         try {
             val resolver = context.contentResolver
@@ -93,7 +114,6 @@ class LocalRecordsDataSource(private val context: Context, private val gson: Gso
                 }
             }
 
-            // devolver ruta relativa
             return@withContext "${videosDirName}/${fileName}"
         } catch (e: Exception) {
             e.printStackTrace()

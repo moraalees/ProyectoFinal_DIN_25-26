@@ -8,6 +8,21 @@ import com.example.gymtracker.R
 import com.example.gymtracker.data.local.json.EjerciciosJsonDataSource
 import com.google.gson.Gson
 
+/**
+ * Repositorio de ejercicios que gestiona la lista de ejercicios por defecto y los guardados por usuario.
+ *
+ * Este objeto permite:
+ * - Inicializar los ejercicios de un usuario, cargando los guardados o creando la lista por defecto.
+ * - Obtener todos los ejercicios disponibles para un usuario.
+ * - Obtener la lista de ejercicios iniciales (principales) sin modificaciones.
+ * - Añadir un nuevo ejercicio y actualizar los datos guardados.
+ *
+ * Funciones principales:
+ * - [inicializar]: Inicializa la lista de ejercicios de un usuario, cargando los guardados o usando los predeterminados.
+ * - [obtenerTodosLosEjercicios]: Devuelve todos los ejercicios del usuario, incluidos los añadidos manualmente.
+ * - [obtenerEjerciciosPrincipales]: Devuelve la lista de ejercicios iniciales por defecto.
+ * - [anadirEjercicio]: Añade un ejercicio a la lista del usuario y lo guarda en el JSON correspondiente.
+ */
 object EjerciciosRepository {
 
     private val ejerciciosIniciales = listOf(
