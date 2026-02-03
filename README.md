@@ -60,6 +60,12 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 
 ## Características Principales
 
+- Modo Administrador
+- Sesión persistida
+- Calendario
+- Marcas globales
+- Rutina autogenerada
+
 ---
 
 ## Justificación de Diseño y Usabilidad
