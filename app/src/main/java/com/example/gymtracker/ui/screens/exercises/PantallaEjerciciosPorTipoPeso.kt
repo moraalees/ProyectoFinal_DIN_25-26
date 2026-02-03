@@ -51,6 +51,26 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.forEach
 
+/**
+ * Pantalla que muestra los ejercicios agrupados por tipo de peso.
+ *
+ * Los ejercicios se organizan en secciones con encabezados fijos (sticky headers),
+ * uno por cada valor definido en el enum [TipoPeso]. Cada sección muestra los
+ * ejercicios correspondientes distribuidos en filas de dos columnas.
+ *
+ * Funcionalidades principales:
+ * - Inicializa el repositorio de ejercicios según el usuario logueado.
+ * - Agrupa todos los ejercicios por tipo de peso, incluyendo aquellos tipos
+ *   que no tengan ejercicios asociados.
+ * - Muestra un botón flotante para añadir nuevos ejercicios.
+ * - Permite crear un nuevo ejercicio mediante un diálogo con validación de campos.
+ *
+ * Si no existe un usuario autenticado, se muestra un mensaje informativo y
+ * la pantalla no continúa con la carga de datos.
+ *
+ * @param context Contexto de la aplicación necesario para inicializar repositorios
+ * y gestionar la persistencia de datos.
+ */
 @Composable
 fun PantallaEjerciciosPorTipoPeso(context: Context){
 
@@ -248,6 +268,16 @@ fun PantallaEjerciciosPorTipoPeso(context: Context){
     }
 }
 
+/**
+ * Agrupa una lista de ejercicios por tipo de peso, asegurando que todos los valores
+ * definidos en el enum [TipoPeso] estén presentes en el resultado.
+ *
+ * Cada ejercicio se asigna únicamente al tipo de peso que tiene definido.
+ *
+ * @param listaEjercicios Lista completa de ejercicios a agrupar.
+ * @return Un mapa donde la clave es un tipo de peso y el valor es la lista de
+ * ejercicios asociados a dicho tipo (puede estar vacía).
+ */
 private fun agruparTipoPesoCompleto(
     listaEjercicios: List<EjercicioBase>
 ): Map<TipoPeso, List<EjercicioBase>> {

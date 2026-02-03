@@ -9,6 +9,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import android.content.pm.PackageManager
 
+/**
+ * Composable que solicita el permiso de notificaciones en Android 13 (TIRAMISU) o superior.
+ *
+ * Si el permiso no está otorgado, lanza un request al usuario para concederlo.
+ */
 @Composable
 fun SolicitarPermisoNotificaciones() {
     val context = LocalContext.current

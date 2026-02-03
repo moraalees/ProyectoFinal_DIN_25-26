@@ -6,10 +6,20 @@ import com.example.gymtracker.data.repository.EntrenamientosRepository
 import com.example.gymtracker.model.Entreno
 import com.example.gymtracker.ui.controllers.ControladorSesion
 
+/**
+ * ViewModel encargado de gestionar los entrenamientos del usuario logueado.
+ *
+ * Se encarga de:
+ * - Cargar los entrenamientos desde el repositorio.
+ * - Mantener el estado observable de los entrenamientos.
+ * - Guardar o actualizar entrenamientos.
+ *
+ * @property repo Repositorio que gestiona el acceso a los entrenamientos
+ * (lectura y escritura de datos).
+ */
 class EntrenamientoViewModel(
     private val repo: EntrenamientosRepository
 ) : ViewModel() {
-
     private val _entrenamientos = mutableStateListOf<Entreno>()
     val entrenamientos: List<Entreno> get() = _entrenamientos
 

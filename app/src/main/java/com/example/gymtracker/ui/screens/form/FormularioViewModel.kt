@@ -9,6 +9,22 @@ import com.example.gymtracker.model.enum_classes.Experiencia
 import com.example.gymtracker.model.UsuarioGimnasio
 import com.example.gymtracker.ui.controllers.ControladorSesion
 
+/**
+ * ViewModel encargado de gestionar el formulario de perfil de gimnasio del usuario.
+ *
+ * Se responsabiliza de:
+ * - Recuperar el usuario actualmente autenticado desde el controlador de sesión.
+ * - Crear o actualizar el perfil [UsuarioGimnasio] con los datos introducidos
+ *   en el formulario.
+ * - Persistir el perfil en el repositorio correspondiente.
+ * - Asignar automáticamente una rutina inicial en función de los datos del perfil.
+ *
+ * Si no existe un usuario logueado, el guardado del perfil no se realiza y
+ * el método devuelve `null`.
+ *
+ * @property repositorioUsuarioGimnasio Repositorio encargado de la gestión de
+ * perfiles de gimnasio y la asignación de rutinas.
+ */
 class FormularioViewModel(
     private val repositorioUsuarioGimnasio: UsuarioGimnasioRepository
 ): ViewModel() {
@@ -36,10 +52,5 @@ class FormularioViewModel(
         repositorioUsuarioGimnasio.asignarRutina(cuenta)
 
         return repositorioUsuarioGimnasio.obtenerPerfilPorUsuario(usuario.id)
-    }
-
-    fun tienePerfil(usuarioId: Int): Boolean {
-        val perfil = repositorioUsuarioGimnasio.obtenerPerfilPorUsuario(usuarioId)
-        return perfil != null
     }
 }

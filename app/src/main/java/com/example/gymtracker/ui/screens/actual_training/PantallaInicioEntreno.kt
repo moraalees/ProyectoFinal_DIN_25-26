@@ -51,6 +51,17 @@ import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * Pantalla que gestiona la ejecución de un entrenamiento activo.
+ *
+ * Muestra el ejercicio actual, permite registrar las series realizadas,
+ * controla los descansos entre series y guarda el entrenamiento al finalizar.
+ *
+ * @param plan Plan semanal activo del usuario.
+ * @param viewModel ViewModel encargado de guardar el entrenamiento realizado.
+ * @param context Contexto necesario para mostrar notificaciones y Toasts.
+ * @param navegarHome Acción de navegación al finalizar el entrenamiento.
+ */
 @Composable
 fun PantallaInicioEntreno(
     plan: PlanSemanal,

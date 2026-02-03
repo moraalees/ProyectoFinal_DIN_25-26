@@ -36,6 +36,26 @@ import com.example.gymtracker.ui.components.EnumDropdown
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Composable que muestra el formulario de perfil de gimnasio del usuario.
+ *
+ * Permite al usuario ingresar sus datos personales y de entrenamiento:
+ * - Experiencia
+ * - Enfoque
+ * - Edad
+ * - Altura
+ * - Peso
+ *
+ * A partir de estos datos, se podrá generar automáticamente una rutina personalizada.
+ *
+ * @param onGuardar Callback que se ejecuta cuando el usuario pulsa "Guardar perfil".
+ * Recibe los valores seleccionados o ingresados en el formulario:
+ *   - [Experiencia]: nivel de experiencia del usuario.
+ *   - [Enfoque]: objetivo principal del entrenamiento.
+ *   - [Edad]: rango de edad seleccionado.
+ *   - [Altura]: altura seleccionada.
+ *   - [Double]: peso ingresado por el usuario.
+ */
 @Composable
 fun PantallaFormulario(
     onGuardar: (

@@ -41,6 +41,17 @@ import com.example.gymtracker.ui.components.EnumDropdown
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Composable que muestra y permite editar los datos del usuario y su perfil de gimnasio.
+ *
+ * Dependiendo del modo seleccionado, se muestran:
+ * - Modo USUARIO: campos para editar nombre, nombre de usuario, correo y contraseña.
+ * - Modo GIMNASIO: campos para editar edad, altura, peso, experiencia y enfoque del perfil de gimnasio.
+ *
+ * @param usuario Usuario actual cuyos datos se van a mostrar y editar.
+ * @param volverHome Lambda que se ejecuta para volver a la pantalla principal.
+ * @param viewModel ViewModel que maneja la lógica de actualización de datos y perfil de gimnasio.
+ */
 @Composable
 fun PantallaDatosUsuario(
     usuario: Usuario,

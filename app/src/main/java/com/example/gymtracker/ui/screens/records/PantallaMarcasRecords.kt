@@ -39,6 +39,23 @@ import com.example.gymtracker.model.RecordExerciseEntry
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import java.io.File
 
+/**
+ * PantallaMarcasRecords
+ *
+ * Muestra los records de ejercicios de todos los usuarios.
+ * Permite:
+ * - Ver la lista de ejercicios y sus tops.
+ * - Abrir un diálogo con detalles del record.
+ * - Reproducir vídeos de los ejercicios.
+ * - Enviar solicitudes de registro de record.
+ *
+ * Flujo:
+ * 1. Carga sesión del usuario.
+ * 2. Inicializa RecordsViewModel.
+ * 3. Observa eventos del ViewModel para mostrar Snackbar.
+ * 4. Renderiza LazyVerticalGrid con CardEjercicioRecord.
+ * 5. Al seleccionar un ejercicio, abre DialogTopDetails con acciones.
+ */
 @Composable
 fun PantallaMarcasRecords() {
     val contexto = LocalContext.current

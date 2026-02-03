@@ -51,7 +51,25 @@ import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.google.gson.Gson
 
-
+/**
+ * Pantalla de gestión y visualización de ejercicios.
+ *
+ * Muestra un listado en formato de cuadrícula con todos los ejercicios disponibles
+ * para el usuario actualmente logueado. Permite añadir nuevos ejercicios mediante
+ * un diálogo modal accesible desde un botón flotante.
+ *
+ * Funcionalidades principales:
+ * - Inicialización del repositorio de ejercicios según el usuario activo.
+ * - Visualización de ejercicios en una cuadrícula adaptable.
+ * - Creación de nuevos ejercicios con nombre, descripción, tipo de peso y músculo principal.
+ * - Validación de campos antes de permitir la creación de un ejercicio.
+ *
+ * Si no hay un usuario logueado, se muestra un mensaje informativo y la pantalla
+ * no continúa con la carga de datos.
+ *
+ * @param context Contexto de la aplicación necesario para inicializar repositorios
+ * y realizar operaciones de persistencia.
+ */
 @Composable
 fun PantallaEjercicios(context: Context) {
 

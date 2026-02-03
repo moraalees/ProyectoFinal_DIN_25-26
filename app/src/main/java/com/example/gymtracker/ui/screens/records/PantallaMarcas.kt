@@ -32,6 +32,23 @@ import com.example.gymtracker.data.repository.EntrenamientosRepository
 import com.example.gymtracker.ui.components.FilaMarcaEjercicio
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
+/**
+ * PantallaMarcas
+ *
+ * Composable que muestra las marcas personales de un usuario en la aplicación.
+ * Permite buscar ejercicios por nombre y visualizar los registros de peso máximo y repeticiones.
+ *
+ * Parámetros:
+ * @param entrenamientosRepository Repositorio para obtener los entrenamientos del usuario.
+ * @param usuarioId ID del usuario cuyos datos se mostrarán; si es null, se muestra un mensaje de error.
+ *
+ * Funcionalidades:
+ * - Muestra un TextField para filtrar ejercicios por nombre.
+ * - Observa el estado de MarcasViewModel (Loading, Success, Error).
+ * - Muestra un indicador de carga mientras se obtienen las marcas.
+ * - Muestra un mensaje de error si falla la carga.
+ * - Lista las marcas personales con LazyColumn si la carga es exitosa.
+ */
 @Composable
 fun PantallaMarcas(
     entrenamientosRepository: EntrenamientosRepository,

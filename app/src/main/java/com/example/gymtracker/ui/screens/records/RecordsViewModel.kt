@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * States y eventos para el manejo de records de ejercicios.
+ */
 sealed class RecordsUiState {
     object Loading : RecordsUiState()
     data class Success(val ejercicios: List<RecordExerciseEntry>) : RecordsUiState()
@@ -25,6 +28,19 @@ sealed class RecordsEvent {
     data class SubmissionResult(val success: Boolean, val mensaje: String?) : RecordsEvent()
     data class RequestSent(val success: Boolean, val mensaje: String?) : RecordsEvent()
 }
+
+/**
+ * ViewModel para la pantalla de Records de ejercicios.
+ *
+ * Funcionalidades:
+ * - Cargar los tops de todos los ejercicios.
+ * - Comprobar si un envío entraría en el top 3.
+ * - Enviar solicitudes de registro de record con vídeo.
+ *
+ * Estados:
+ * - uiState: observa los ejercicios y su estado (Loading, Success, Error).
+ * - events: emite eventos de envío de solicitudes o resultados.
+ */
 
 class RecordsViewModel(private val repository: RecordsRepository) : ViewModel() {
 

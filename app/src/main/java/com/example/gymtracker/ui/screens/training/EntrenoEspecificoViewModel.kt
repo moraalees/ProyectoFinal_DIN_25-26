@@ -7,6 +7,12 @@ import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.model.UsuarioGimnasio
 import java.time.LocalDate
 
+/**
+ * ViewModel encargado de actualizar entrenamientos específicos dentro de las rutinas
+ * del perfil de gimnasio de un usuario.
+ *
+ * @property repositorio Repositorio que permite acceder y modificar el perfil de gimnasio del usuario.
+ */
 class EntrenoEspecificoViewModel(
     private val repositorio: UsuarioGimnasioRepository
 ) : ViewModel() {

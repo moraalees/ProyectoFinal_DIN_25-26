@@ -21,6 +21,31 @@ import com.example.gymtracker.R
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Composable para la pantalla de registro de nuevos usuarios.
+ *
+ * Muestra un formulario con los campos:
+ * - Nombre completo
+ * - Nombre de usuario
+ * - Correo electrónico
+ * - Contraseña (con opción de mostrar/ocultar)
+ *
+ * Validaciones:
+ * - Nombre no vacío
+ * - Nombre de usuario mínimo 5 caracteres
+ * - Correo válido
+ * - Contraseña mínima 8 caracteres
+ *
+ * Acciones:
+ * - Al presionar "Registrarse" se llama a `viewModel.registrar` y se maneja el resultado.
+ * - Mensajes de error se muestran debajo del botón si hay algún fallo de validación o registro.
+ * - Botón de texto para ir a la pantalla de login si ya se tiene cuenta.
+ *
+ * Parámetros:
+ * - viewModel: RegistroViewModel que maneja la lógica de registro
+ * - registroExitoso: callback que se ejecuta si el registro fue exitoso
+ * - pantallaLogin: callback para navegar a la pantalla de login
+ */
 @Composable
 fun PantallaRegistro(
     viewModel: RegistroViewModel,

@@ -14,6 +14,11 @@ import com.example.gymtracker.model.PlantillaDia
 import com.example.gymtracker.model.PlantillaPlanSemanal
 import com.example.gymtracker.model.enum_classes.TipoRutina
 
+/**
+ * ViewModel encargado de gestionar las rutinas de un usuario y su perfil de gimnasio.
+ *
+ * @property repositorio Repositorio para acceder y modificar el perfil de gimnasio del usuario.
+ */
 class RutinasViewModel(
     private val repositorio: UsuarioGimnasioRepository
 ) : ViewModel() {

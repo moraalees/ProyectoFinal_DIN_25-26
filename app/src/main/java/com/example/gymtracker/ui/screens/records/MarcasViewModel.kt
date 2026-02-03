@@ -15,14 +15,39 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import com.example.gymtracker.model.enum_classes.TipoPeso
 
-
-
+/**
+ * MarcasUiState
+ *
+ * Representa los distintos estados de la UI para la pantalla de marcas personales.
+ */
 sealed class MarcasUiState {
     object Loading : MarcasUiState()
     data class Success(val marcas: List<MarcaPersonal>) : MarcasUiState()
     data class Error(val mensaje: String) : MarcasUiState()
 }
 
+
+/**
+ * MarcasViewModel
+ *
+ * ViewModel encargado de obtener y procesar las marcas personales de un usuario
+ * a partir de sus entrenamientos registrados.
+ *
+ * Funcionalidad:
+ * - Carga los entrenamientos de un usuario por su ID.
+ * - Procesa las series de cada ejercicio para determinar el peso máximo y repeticiones.
+ * - Genera una lista de `MarcaPersonal` ordenada por peso máximo.
+ * - Expone el estado mediante un StateFlow `uiState` para que la UI pueda reaccionar.
+ *
+ * Propiedades:
+ * @param entrenamientosRepository Repositorio que permite acceder a los entrenamientos del usuario.
+ *
+ * Métodos principales:
+ * - cargarMarcas(usuarioId: Int): Obtiene entrenamientos y calcula las marcas personales.
+ *
+ * Funciones internas:
+ * - procesarSerie(): Actualiza la marca máxima de un ejercicio en un mapa temporal.
+ */
 class MarcasViewModel(
     private val entrenamientosRepository: EntrenamientosRepository
 ) : ViewModel() {
@@ -82,6 +107,7 @@ class MarcasViewModel(
             }
         }
     }
+
 
     private fun procesarSerie(
         map: MutableMap<Int, MarcaTemporal>,

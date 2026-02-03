@@ -16,6 +16,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
+/**
+ * Pantalla principal del administrador de la aplicación.
+ *
+ * Muestra un menú sencillo con acciones exclusivas para usuarios administradores,
+ * como el acceso a los récords globales de marcas y la opción de cerrar sesión.
+ *
+ * La interfaz se presenta centrada en pantalla con un fondo degradado.
+ *
+ * @param pantallaRecords Callback que navega a la pantalla de gestión/visualización
+ * de récords de marcas.
+ * @param cerrarSesion Callback que cierra la sesión actual del administrador.
+ */
 @Composable
 fun PantallaAdmin(
     pantallaRecords: () -> Unit,

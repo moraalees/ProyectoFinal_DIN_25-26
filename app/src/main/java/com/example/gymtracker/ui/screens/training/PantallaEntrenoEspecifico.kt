@@ -49,6 +49,22 @@ import com.example.gymtracker.ui.components.EjercicioComponent
 import com.example.gymtracker.ui.components.EjercicioRutinaComponente
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
+/**
+ * Pantalla que muestra los detalles de un entrenamiento específico de una rutina de un usuario.
+ *
+ * Permite:
+ * - Visualizar si es día de entreno o descanso.
+ * - Mostrar los ejercicios asignados a este día.
+ * - Actualizar o eliminar ejercicios de la rutina.
+ * - Cambiar el día entre entreno y descanso.
+ * - Añadir nuevos ejercicios mediante un diálogo de selección.
+ *
+ * @param entreno Entrenamiento a mostrar y editar.
+ * @param rutinaId ID de la rutina a la que pertenece el entrenamiento.
+ * @param usuario Usuario propietario de la rutina.
+ * @param viewModel ViewModel encargado de actualizar el entrenamiento en el repositorio.
+ * @param pantallaAnterior Función que se llama para regresar a la pantalla previa.
+ */
 @Composable
 fun PantallaEntrenoEspecifico(
     entreno: Entreno,

@@ -48,6 +48,25 @@ import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import kotlin.text.forEach
 
+/**
+ * Pantalla que muestra los ejercicios agrupados por músculo principal.
+ *
+ * Los ejercicios se organizan en secciones con encabezados fijos (sticky headers),
+ * uno por cada músculo definido en el enum [Musculo]. Cada sección presenta los
+ * ejercicios correspondientes en filas de dos columnas.
+ *
+ * Funcionalidades principales:
+ * - Inicializa el repositorio de ejercicios en función del usuario logueado.
+ * - Agrupa todos los ejercicios por músculo, incluyendo aquellos músculos sin ejercicios.
+ * - Muestra un botón flotante para añadir nuevos ejercicios.
+ * - Permite crear un nuevo ejercicio mediante un diálogo con validación de campos.
+ *
+ * Si no hay un usuario autenticado, se muestra un mensaje informativo y la pantalla
+ * no continúa con la carga de datos.
+ *
+ * @param context Contexto de la aplicación necesario para inicializar repositorios
+ * y realizar operaciones de persistencia.
+ */
 @Composable
 fun PantallaEjerciciosPorMusculo(context: Context){
     val usuarioActual = ControladorSesion.usuarioLogueado()
@@ -244,6 +263,17 @@ fun PantallaEjerciciosPorMusculo(context: Context){
 
 }
 
+/**
+ * Agrupa una lista de ejercicios por músculo, asegurando que todos los músculos
+ * definidos en el enum [Musculo] estén presentes en el resultado.
+ *
+ * Cada ejercicio puede pertenecer a uno o varios músculos y será incluido en
+ * todas las categorías correspondientes.
+ *
+ * @param listaEjercicios Lista completa de ejercicios a agrupar.
+ * @return Un mapa donde la clave es un músculo y el valor es la lista de ejercicios
+ * asociados a dicho músculo (puede estar vacía).
+ */
 private fun agruparMusculosCompleto(
     listaEjercicios: List<EjercicioBase>
 ): Map<Musculo, List<EjercicioBase>> {

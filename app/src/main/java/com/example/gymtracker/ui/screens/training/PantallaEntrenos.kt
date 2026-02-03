@@ -35,6 +35,17 @@ import com.example.gymtracker.ui.screens.routines.RutinasViewModel
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * Pantalla que muestra los días de una rutina semanal y su tipo (entreno o descanso).
+ *
+ * Cada día se representa con su abreviatura y un estado visual indicando si es día de
+ * entrenamiento o descanso. Permite interactuar con cada día para ver o modificar detalles
+ * del entrenamiento.
+ *
+ * @param rutina PlanSemanal que contiene los días de entrenamiento y descanso.
+ * @param onEntrenoClick Lambda que se ejecuta al hacer clic en un día de la rutina,
+ * recibiendo el entrenamiento correspondiente y la rutina completa.
+ */
 @Composable
 fun PantallaEntrenos(
     rutina: PlanSemanal,

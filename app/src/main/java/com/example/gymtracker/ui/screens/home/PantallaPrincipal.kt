@@ -30,6 +30,21 @@ import com.example.gymtracker.ui.components.EntrenoDelDiaRotativo
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import java.util.Calendar
 
+/**
+ * PantallaPrincipal
+ *
+ * Muestra la rutina activa del usuario y permite iniciar el entreno del día.
+ *
+ * @param usuario Usuario actualmente logueado.
+ * @param viewModel HomeViewModel con la rutina activa.
+ * @param iniciarEntreno Lambda para iniciar el entrenamiento del día.
+ *
+ * Comportamiento:
+ * - Carga la rutina del usuario desde el ViewModel.
+ * - Muestra la rutina del día actual con EntrenoDelDiaRotativo.
+ * - Si hay entreno hoy con ejercicios, muestra un botón flotante para iniciar el entreno.
+ * - Actualiza la UI automáticamente si cambia la rutina activa.
+ */
 @Composable
 fun PantallaPrincipal(
     usuario: Usuario,
@@ -69,7 +84,6 @@ fun PantallaPrincipal(
             } ?: Text("No tienes ninguna rutina activa", color = Color.White)
         }
 
-        // Mostrar el botón solo si hay rutina activa y hoy es día de entrenamiento con ejercicios
         if (rutina != null && entrenoHoy != null && entrenoHoy.esEntreno && entrenoHoy.ejercicios.isNotEmpty()){
             IconButton(
                 onClick = { iniciarEntreno(rutina) },

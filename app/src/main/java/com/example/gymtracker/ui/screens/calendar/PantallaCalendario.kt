@@ -51,6 +51,21 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
+/**
+ * Pantalla de calendario de entrenamientos.
+ *
+ * Muestra un calendario mensual donde se visualizan los días con entrenamientos
+ * realizados por el usuario. Permite navegar entre meses y seleccionar un día
+ * concreto para ver el detalle del entreno efectuado en esa fecha.
+ *
+ * Funcionalidades principales:
+ * - Navegación entre meses (anterior / siguiente).
+ * - Resaltado de días con entrenamientos.
+ * - Selección de un día para ver el detalle del entreno.
+ * - Carga automática de entrenamientos desde el ViewModel.
+ *
+ * @param entrenamientoViewModel ViewModel que gestiona y proporciona los entrenamientos realizados.
+ */
 @Composable
 fun PantallaCalendario(
     entrenamientoViewModel: EntrenamientoViewModel
@@ -193,7 +208,6 @@ fun PantallaCalendario(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 16.sp
                                     )
-                                    // Mostrar series realizadas si existen, sino mostrar objetivo
                                     if (ejercicio.seriesRealizadas.isEmpty()) {
                                         Text(
                                             text = "Series: ${ejercicio.series}",
@@ -225,7 +239,24 @@ fun PantallaCalendario(
     }
 }
 
-
+/**
+ * Genera la lista de días que se muestran en el calendario mensual.
+ *
+ * La función construye una cuadrícula completa de semanas (lunes a domingo),
+ * incluyendo días del mes anterior y siguiente si es necesario, para mantener
+ * la estructura del calendario.
+ *
+ * Cada día contiene información sobre:
+ * - Si pertenece al mes actual.
+ * - Si corresponde al día de hoy.
+ * - Los entrenamientos realizados en esa fecha.
+ *
+ * @param mes Mes y año a mostrar en el calendario.
+ * @param hoy Fecha actual del sistema.
+ * @param entrenosRealizados Lista de entrenamientos guardados.
+ *
+ * @return Lista de objetos [DiaCalendario] que representan el calendario completo.
+ */
 private fun generarDiasCalendario(
     mes: YearMonth,
     hoy: LocalDate,

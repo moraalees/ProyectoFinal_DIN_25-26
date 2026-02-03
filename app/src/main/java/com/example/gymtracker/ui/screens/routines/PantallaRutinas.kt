@@ -32,6 +32,15 @@ import com.example.gymtracker.ui.components.DialogCrearRutina
 import com.example.gymtracker.ui.navigation.Rutas
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 
+/**
+ * Composable que muestra la pantalla de rutinas de un usuario.
+ *
+ * Muestra las rutinas existentes de un usuario y permite crear nuevas rutinas personalizadas.
+ *
+ * @param rutinaViewModel ViewModel que gestiona las rutinas y el perfil del usuario.
+ * @param usuario Usuario cuyo perfil y rutinas se mostrarán.
+ * @param onModificarRutina Callback que se ejecuta cuando se desea modificar una rutina existente.
+ */
 @Composable
 fun PantallaRutinas(
     rutinaViewModel: RutinasViewModel,

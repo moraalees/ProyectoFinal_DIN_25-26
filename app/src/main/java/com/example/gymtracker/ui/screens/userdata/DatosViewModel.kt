@@ -10,6 +10,15 @@ import com.example.gymtracker.model.Usuario
 import com.example.gymtracker.model.UsuarioGimnasio
 import com.example.gymtracker.ui.controllers.ControladorSesion
 
+/**
+ * ViewModel encargado de manejar los datos del usuario y su perfil de gimnasio.
+ *
+ * Proporciona funciones para cargar información del usuario, actualizar datos personales
+ * (nombre, nombre de usuario, correo, contraseña) y guardar cambios en el perfil de gimnasio.
+ *
+ * @property usuarioRepository Repositorio para acceder y modificar información básica del usuario.
+ * @property usuarioGimnasioRepository Repositorio para acceder y modificar el perfil de gimnasio.
+ */
 class DatosViewModel (
     private val usuarioRepository: UsuarioRepository,
     private val usuarioGimnasioRepository: UsuarioGimnasioRepository

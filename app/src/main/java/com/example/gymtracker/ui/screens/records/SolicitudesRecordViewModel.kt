@@ -10,6 +10,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel para manejar las solicitudes de registro de records de ejercicios.
+ *
+ * Funcionalidades:
+ * - loadRequests(): carga todas las solicitudes pendientes desde el repositorio.
+ * - accept(requestId): acepta una solicitud y recarga la lista.
+ * - reject(requestId): rechaza una solicitud y recarga la lista.
+ *
+ * Estados:
+ * - solicitudes: StateFlow que expone la lista actual de solicitudes.
+ */
 class SolicitudesRecordViewModel(
     private val repository: RecordsRepository
 ): ViewModel() {

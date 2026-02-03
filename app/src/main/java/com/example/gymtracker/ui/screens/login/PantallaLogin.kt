@@ -23,6 +23,27 @@ import com.example.gymtracker.ui.controllers.ControladorSesion
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.example.gymtracker.ui.theme.RojoError
 
+/**
+ * PantallaLogin
+ *
+ * Composable que muestra la interfaz de inicio de sesión de la aplicación.
+ *
+ * Funcionalidad:
+ * - Permite al usuario ingresar correo y contraseña.
+ * - Valida campos: correo obligatorio y con formato válido, contraseña mínima 8 caracteres.
+ * - Muestra mensajes de error en caso de validación fallida o credenciales incorrectas.
+ * - Permite mostrar/ocultar la contraseña mediante un icono.
+ * - Al iniciar sesión correctamente:
+ *    - Muestra un saludo temporal con el nombre del usuario.
+ *    - Redirige a la pantalla de administrador si el usuario es admin.
+ *    - Redirige a la pantalla principal de usuario si no es admin.
+ *
+ * Parámetros:
+ * @param loginExitoso Lambda que se ejecuta si el login es exitoso (usuario normal).
+ * @param pantallaRegistro Lambda que navega a la pantalla de registro.
+ * @param viewModel ViewModel que maneja la lógica de inicio de sesión.
+ * @param pantallaAdmin Lambda que navega a la pantalla de administrador si el usuario es admin.
+ */
 @Composable
 fun PantallaLogin(
     loginExitoso: () -> Unit,

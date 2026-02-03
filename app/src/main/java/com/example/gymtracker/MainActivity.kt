@@ -41,6 +41,13 @@ import com.example.gymtracker.ui.utils.SolicitarPermisoNotificaciones
 import com.example.gymtracker.ui.utils.crearCanalNotificaciones
 import com.google.gson.Gson
 
+/**
+ * MainActivity de la aplicación GymTracker.
+ *
+ * Esta actividad configura la UI principal usando Jetpack Compose, inicializa los
+ * repositorios y ViewModels necesarios, crea el canal de notificaciones y solicita
+ * permisos de notificación en Android 13+.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

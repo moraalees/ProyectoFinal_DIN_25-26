@@ -13,9 +13,19 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.gymtracker.R
 
+/**
+ * Constantes para manejo de notificaciones de descanso.
+ */
 const val CANAL_DESCANSO = "canal_descanso"
 const val ID_NOTIFICACION_DESCANSO = 1001
 
+/**
+ * Crea el canal de notificaciones para los descansos de entrenamiento.
+ *
+ * Solo tiene efecto en Android O (API 26) o superior.
+ *
+ * @param context Contexto de la aplicación.
+ */
 fun crearCanalNotificaciones(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val canal = NotificationChannel(
@@ -32,6 +42,12 @@ fun crearCanalNotificaciones(context: Context) {
     }
 }
 
+/**
+ * Muestra una notificación de descanso en progreso con tiempo restante.
+ *
+ * @param context Contexto de la aplicación.
+ * @param segundosRestantes Tiempo restante de descanso en segundos.
+ */
 fun mostrarNotificacionDescanso(
     context: Context,
     segundosRestantes: Int
@@ -60,6 +76,11 @@ fun mostrarNotificacionDescanso(
     }
 }
 
+/**
+ * Cancela la notificación de descanso en curso.
+ *
+ * @param context Contexto de la aplicación.
+ */
 fun cancelarNotificacionDescanso(context: Context) {
     try {
         NotificationManagerCompat.from(context)
@@ -68,7 +89,11 @@ fun cancelarNotificacionDescanso(context: Context) {
     }
 }
 
-
+/**
+ * Muestra una notificación indicando que el descanso ha finalizado.
+ *
+ * @param context Contexto de la aplicación.
+ */
 fun mostrarNotificacionFinDescanso(context: Context) {
     val tienePermiso = tienePermisoNotificaciones(context)
     Log.d("NOTIF", "Permiso notificaciones: $tienePermiso")
@@ -90,6 +115,12 @@ fun mostrarNotificacionFinDescanso(context: Context) {
     }
 }
 
+/**
+ * Verifica si la aplicación tiene permisos para mostrar notificaciones.
+ *
+ * @param context Contexto de la aplicación.
+ * @return true si se permiten notificaciones, false en caso contrario.
+ */
 fun tienePermisoNotificaciones(context: Context): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         ContextCompat.checkSelfPermission(

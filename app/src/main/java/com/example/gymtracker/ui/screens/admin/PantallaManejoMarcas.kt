@@ -32,6 +32,20 @@ import com.example.gymtracker.data.repository.UsuarioRepository
 import com.example.gymtracker.ui.theme.AzulOscuroFondo
 import com.google.gson.Gson
 
+/**
+ * Pantalla de administración para la gestión de solicitudes de récords.
+ *
+ * Permite al administrador revisar las solicitudes enviadas por los usuarios
+ * para validar nuevas marcas personales. Desde esta pantalla se pueden:
+ * - Visualizar las solicitudes pendientes.
+ * - Ver el vídeo asociado a cada solicitud.
+ * - Aceptar o rechazar una solicitud de récord.
+ *
+ * La información se carga al iniciarse la pantalla y se muestra sobre un fondo
+ * con degradado.
+ *
+ * @param onBack Callback que navega a la pantalla anterior.
+ */
 @Composable
 fun PantallaManejoMarcas(
     onBack: () -> Unit
@@ -79,8 +93,28 @@ fun PantallaManejoMarcas(
     }
 }
 
+/**
+ * Componente visual que representa una solicitud individual de récord.
+ *
+ * Muestra la información básica de la solicitud, incluyendo el ejercicio,
+ * el peso y repeticiones realizados, así como el usuario que la envió.
+ * Además, ofrece acciones para:
+ * - Reproducir el vídeo de la marca enviada.
+ * - Aceptar la solicitud.
+ * - Rechazar la solicitud.
+ *
+ * @param req Solicitud de récord a mostrar.
+ * @param getUsername Función que obtiene el nombre de usuario a partir de su ID.
+ * @param onAccept Callback que acepta la solicitud.
+ * @param onReject Callback que rechaza la solicitud.
+ */
 @Composable
-fun RequestCard(req: RecordRequest, getUsername: (Int) -> String, onAccept: () -> Unit, onReject: () -> Unit) {
+private fun RequestCard(
+    req: RecordRequest,
+    getUsername: (Int) -> String,
+    onAccept: () -> Unit,
+    onReject: () -> Unit
+) {
     val contexto = LocalContext.current
     Card(modifier = Modifier
         .fillMaxWidth()
