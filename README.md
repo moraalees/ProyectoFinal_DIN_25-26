@@ -60,11 +60,16 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 
 ## Características Principales
 
-- Modo Administrador
-- Sesión persistida
-- Calendario
-- Marcas globales
-- Rutina autogenerada
+`GymTracker` posee varias funcionalidades que no se encuentran en la mayoría de aplicaciones convenciales. Estas características fomentan el continuo entrenamiento de los usuarios y les motiva a seguir:
+
+- Calendario: Muestra un calendario en donde se observan los entrenos que el usuario y cuándo se hicieron:
+  - La interfaz se basa en un calendario dinámico que utiliza la función `generarDiasCalendario` para construir una cuadrícula mensual completa, incluyendo días de meses adyacentes para mantener la estética de semanas enteras. Mediante el uso de estados de Jetpack Compose como `mesActual` y la función `derivedStateOf`, la pantalla se redibuja automáticamente cada vez que el usuario navega entre meses, permitiendo explorar el historial de actividad de forma fluida y visualmente organizada.
+  - Al seleccionar un día específico, la aplicación filtra la lista de entrenamientos cargados para mostrar el detalle de los ejercicios realizados en esa fecha en la parte inferior de la pantalla. Si el entrenamiento ya tiene registros, muestra el peso y las repeticiones reales de cada serie individual. De lo contrario, presenta los objetivos de peso y repeticiones estimados. Esta información se organiza en tarjetas que separan visualmente cada ejercicio para facilitar una lectura rápida del progreso físico.
+  - La persistencia de datos se gestiona mediante una arquitectura de tres capas, [`ViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/actual_training/EntrenamientoViewModel.kt), [`Repositorio`](app/src/main/java/com/example/gymtracker/data/repository/EntrenamientosRepository.kt) y [`DataSource`](app/src/main/java/com/example/gymtracker/data/local/json/EntrenamientosRealizadosJsonDataSource.kt). Esta estructura utiliza archivos locales en formato JSON para el almacenamiento. Para garantizar la privacidad y la integridad de la información, cada usuario tiene su propio archivo identificado por su ID único, llamado `entrenamientos_ID.json`. Gracias a la librería Gson, los objetos de la aplicación se convierten automáticamente en texto para almacenarse en la memoria interna del dispositivo, asegurando que los datos sobrevivan incluso si se cierra la aplicación o se apaga el móvil.
+  - El flujo de datos comienza con una carga automática al abrir la pantalla, donde el [`ViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/actual_training/EntrenamientoViewModel.kt) recupera la información del repositorio para marcar los días con actividad en el calendario. Cuando el usuario registra o modifica un entrenamiento, el sistema actualiza la lista en memoria y sobrescribe el archivo JSON correspondiente de manera transparente para el usuario. Este ciclo garantiza que la interfaz siempre refleje el estado más reciente de los entrenamientos, manteniendo una sincronización constante entre lo que se ve en pantalla y lo que está guardado en el disco.
+  
+- Marcas globales:
+- Rutina autogenerada:
 
 ---
 
