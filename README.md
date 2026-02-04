@@ -145,7 +145,11 @@ Los informes son fundamentales porque permiten:
 
 [`Herramientas para generar informes`](herramientas/HerramientasInformes.md)
 
-Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas de generación de ayudas.
+### Guías de ayuda
+
+En esta pequeña sección se describe la planificación y documentación de los sistemas de ayuda de la aplicación `GymTracker`. Se detallan estrategias para generar ayudas al usuario, documentar la información persistente, y crear manuales y tutoriales. Todo esto tiene el objetivo de garantizar una experiencia accesible y profesional, permitiendo a usuarios de distintos niveles interactuar con la aplicación de manera efectiva y segura.
+
+[`Guías de ayuda`](GuiasAyuda.md)
 
 ---
 
