@@ -125,6 +125,7 @@ Estas decisiones permiten que la aplicación sea comprensible y usable para usua
 ## Herramientas y librerías
 
 - Acerca de las herramientas de componentes usadas: [`Herramientas Usadas`](herramientas/HerramientasUsadas.md)
+- Acerca del RA2.a Herramientas NUI: [`Herramientas NUI`](herramientas/HerramientasNUI.md)
 
 Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas de generación de ayudas.
 
