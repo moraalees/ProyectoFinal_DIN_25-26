@@ -151,6 +151,10 @@ Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas
 
 ## Empaquetado de la aplicación
 
+En esta sección se describen los RA relacionados con el empaquetado, distribución e instalación de la aplicación `GymTracker`. Se detalla la planificación de cada paso para garantizar una correcta construcción del paquete, personalización del instalador, uso de herramientas externas, firma digital, instalación desatendida, desinstalación segura y canales de distribución, siguiendo buenas prácticas de desarrollo en Android y asegurando una experiencia profesional para el usuario final.
+
+[`Empaquetado de la Aplicación`](EmpaquetadoAplicación.md)
+
 ---
 
 ## Manual de usuario de la aplicación
