@@ -125,7 +125,12 @@ Estas decisiones permiten que la aplicación sea comprensible y usable para usua
 ## Herramientas y librerías
 
 - Acerca de las herramientas de componentes usadas: [`Herramientas Usadas`](herramientas/HerramientasUsadas.md)
-- Acerca del RA2.a Herramientas NUI: [`Herramientas NUI`](herramientas/HerramientasNUI.md)
+- Acerca del `RA2.a Herramientas NUI`: [`Herramientas NUI`](herramientas/HerramientasNUI.md)
+- Acerca del `RA2.b Diseño conceptual NUI`: [`Diseño Conceptual NUI`](herramientas/DiseñoConceptualNUI.md)
+- Acerca del `RA2.c Interacción por voz`: [`Interacción por voz`](herramientas/InteracciónVoz.md)
+- Acerca del `RA2.d Interacción por gesto`: [`Interacción por gesto`](herramientas/InteracciónGesto.md)
+- Acerca del `RA2.e Detección facial/corporal`: [`Detección facial o corporal`](herramientas/DetecciónCorporal.md)
+- Acerca del `RA2.f Realidad aumentada`: [`Realidad Aumentada`](herramientas/RealidadAumentada.md)
 
 Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas de generación de ayudas.
 
