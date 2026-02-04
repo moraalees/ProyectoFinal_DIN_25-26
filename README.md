@@ -124,6 +124,8 @@ Estas decisiones permiten que la aplicación sea comprensible y usable para usua
 
 ## Herramientas y librerías
 
+### Herramientas NUI
+
 - Acerca de las herramientas de componentes usadas: [`Herramientas Usadas`](herramientas/HerramientasUsadas.md)
 - Acerca del `RA2.a Herramientas NUI`: [`Herramientas NUI`](herramientas/HerramientasNUI.md)
 - Acerca del `RA2.b Diseño conceptual NUI`: [`Diseño Conceptual NUI`](herramientas/DiseñoConceptualNUI.md)
@@ -131,6 +133,17 @@ Estas decisiones permiten que la aplicación sea comprensible y usable para usua
 - Acerca del `RA2.d Interacción por gesto`: [`Interacción por gesto`](herramientas/InteracciónGesto.md)
 - Acerca del `RA2.e Detección facial/corporal`: [`Detección facial o corporal`](herramientas/DetecciónCorporal.md)
 - Acerca del `RA2.f Realidad aumentada`: [`Realidad Aumentada`](herramientas/RealidadAumentada.md)
+
+### Informes
+
+En una aplicación de seguimiento deportivo, como lo es `GymTracker`, los datos por sí solos tienen un valor limitado. La verdadera utilidad para el usuario surge cuando esos datos se transforman en informes de progreso.
+
+Los informes son fundamentales porque permiten:
+- Visualizar la evolución, identificando tendencias de mejora a largo plazo que no se ven en el día a día.
+- La toma de decisiones, porque ayuda al usuario a saber cuándo subir de peso o cuándo cambiar de rutina basándose en datos reales.
+- Motivación y retención, al ver gráficas de crecimiento refuerza el compromiso del usuario con la aplicación y con sus objetivos personales.
+
+[`Herramientas para generar informes`](herramientas/HerramientasInformes.md)
 
 Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas de generación de ayudas.
 
