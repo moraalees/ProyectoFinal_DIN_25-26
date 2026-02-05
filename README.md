@@ -7,6 +7,8 @@
 **GymTracker** es una aplicación, diseñada con el framework JetpackCompose, que trata de simular ser una guía para principiantes en mundo de las pesas y el fitness. Al contrario que otras muchas aplicaciones que 
 podemos encontrar en cualquier tienda virtual de teléfono, esta presenta varias innovaciones y características que fomentan que una persona principiante no abandone en sus primeros días.
 
+> Recomendamos abrir los enlaces del `README.md` del repositorio en nuevas pestañas
+
 ---
 
 ## Motivación
@@ -183,4 +185,4 @@ La adición de un vídeo convertido en tutorial para cualquier duda acerca de la
 
 [`Vídeo Tutorial`](app/src/main/res/drawable/TutorialAplicacion.mkv)
 
-En el vídeo no se podía apreciar las notificaciones por motivos de seguridad, por lo que en este [`Vídeo de Notificaciones`](evidencias/prueba_notificaciones.mp4) está disponible.
+> En el vídeo no se podían apreciar las notificaciones por motivos de seguridad, por lo que en este [`Vídeo de Notificaciones`](evidencias/prueba_notificaciones.mp4) está disponible.
