@@ -179,3 +179,8 @@ Se han realizado varias pruebas avanzadas con el fin de buscar y analizar el ren
 
 ## Vídeo de explicación y de uso
 
+La adición de un vídeo convertido en tutorial para cualquier duda acerca de las funcionalidades de la aplicación es fundamental sobre todo para aquellas personas que se sientan perdidas en la interfaz.
+
+[`Vídeo Tutorial`](app/src/main/res/drawable/TutorialAplicacion.mkv)
+
+En el vídeo no se podía apreciar las notificaciones por motivos de seguridad, por lo que en este [`Vídeo de Notificaciones`](evidencias/prueba_notificaciones.mp4) está disponible.
