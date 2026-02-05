@@ -25,6 +25,8 @@ import com.google.gson.Gson
  */
 object EjerciciosRepository {
 
+    // private const val MODO_PRUEBAS = true - Estó se usó para hacer pruebas
+
     private val ejerciciosIniciales = listOf(
         EjercicioBase(1, "Flexiones", "Baja el cuerpo en línea recta doblando los codos a 45 grados hasta que el pecho roce el suelo y luego empuja hacia arriba manteniendo el abdomen firme.",
             TipoPeso.PROPIO_PESO, listOf(Musculo.PECHO_SUPERIOR, Musculo.TRICEPS_CABEZA_LATERAL),
@@ -235,6 +237,24 @@ object EjerciciosRepository {
             R.drawable.maquina_lumbar)
     )
 
+    /**
+    private val ejerciciosPruebasVolumen = mutableListOf<EjercicioBase>().apply {
+        var idActual = 1
+
+        repeat(100) {
+            ejerciciosIniciales.forEach { ejercicio ->
+                add(
+                    ejercicio.copy(
+                        id = idActual++,
+                        nombre = "${ejercicio.nombre} #$idActual"
+                    )
+                )
+            }
+        }
+    }
+
+     Estó se usó para hacer pruebas
+     */
     private val listaEjerciciosPorDefecto = mutableListOf<EjercicioBase>()
 
     fun inicializar(context: Context, usuarioId: Int) {
@@ -242,9 +262,38 @@ object EjerciciosRepository {
         val ejerciciosGuardados = dataSource.obtenerEjercicios(usuarioId.toString())
 
         listaEjerciciosPorDefecto.clear()
+
+        /**
+         * BLOQUE AÑADIDO PARA PRUEBAS DE VOLUMEN
+         * Este código se ejecuta únicamente si MODO_PRUEBAS = true
+         * Permite inicializar la aplicación con un gran número de ejercicios
+         * sin sobrescribir los datos existentes del usuario.
+         */
+        /*
+        if (MODO_PRUEBAS) {
+
+            // Fusiona los ejercicios de prueba con los ya existentes,
+            // asegurando que los IDs sean únicos y evitando duplicados
+            dataSource.fusionarEjercicios(
+                usuarioId.toString(),
+                ejerciciosPruebasVolumen
+            )
+
+            // Carga de nuevo los ejercicios desde almacenamiento interno
+            // para trabajar con el estado persistido tras la fusión
+            listaEjerciciosPorDefecto.addAll(
+                dataSource.obtenerEjercicios(usuarioId.toString())
+            )
+
+        }
+        */
+
         if (ejerciciosGuardados.isEmpty()) {
             listaEjerciciosPorDefecto.addAll(ejerciciosIniciales)
-            dataSource.guardarEjercicios(usuarioId.toString(), listaEjerciciosPorDefecto)
+            dataSource.guardarEjercicios(
+                usuarioId.toString(),
+                listaEjerciciosPorDefecto
+            )
         } else {
             listaEjerciciosPorDefecto.addAll(ejerciciosGuardados)
         }

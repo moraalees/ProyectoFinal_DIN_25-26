@@ -43,4 +43,17 @@ class EjerciciosJsonDataSource(
             it.write(json.toByteArray())
         }
     }
+
+    /**
+    fun fusionarEjercicios(usuarioId: String, nuevos: List<EjercicioBase>) {
+        val actuales = obtenerEjercicios(usuarioId).toMutableList()
+        val existentes = actuales.map { it.id }.toSet()
+
+        nuevos.filter { it.id !in existentes }
+            .forEach { actuales.add(it) }
+
+        guardarEjercicios(usuarioId, actuales)
+    }
+     Este bloque se usó para pruebas
+        */
 }

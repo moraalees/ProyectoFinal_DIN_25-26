@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.gymtracker.data.repository.EntrenoRepository
-import com.example.gymtracker.data.repository.EntrenoRepository.generarPlanSemanalDesdePlantilla
 import com.example.gymtracker.data.repository.UsuarioGimnasioRepository
 import com.example.gymtracker.model.DiaDescanso
 import com.example.gymtracker.model.PlanSemanal
