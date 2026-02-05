@@ -133,168 +133,20 @@ fun NavegadorPrincipal(
         }
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        gesturesEnabled = true,
-        drawerContent = {
-            ModalDrawerSheet {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "Opciones del Programa",
-                    modifier = Modifier
-                        .padding(16.dp)
-                )
-                HorizontalDivider()
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Navegar a Home"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.HOME.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Mostrar Ejercicios"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.EJERCICIOS.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Mostrar Rutinas"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.RUTINAS.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Mostrar Marcas"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.MARCAS.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Mostrar Calendario"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.CALENDARIO.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Récords Globales"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            navController.navigate(Rutas.MARCAS_RECORDS.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text(
-                            text = "Cerrar Sesión"
-                        )
-                    },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                            ControladorSesion.cerrarSesion(context)
-                            navController.navigate(Rutas.LOGIN.ruta) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                        }
-                    }
-                )
-            }
-        }
-    ) {
+    if (usuarioActivo?.esAdmin == true) {
         Scaffold(
             topBar = {
-                if (rutaActual != Rutas.REGISTRO.ruta &&
-                    rutaActual != Rutas.LOGIN.ruta &&
-                    rutaActual != Rutas.FORMULARIO.ruta &&
-                    rutaActual != Rutas.CREDENCIALES.ruta &&
-                    rutaActual != Rutas.ENTRENOS.ruta &&
-                    rutaActual != Rutas.ENTRENO_ESPECIFICO.ruta &&
-                    rutaActual != Rutas.INICIO_ENTRENO.ruta
-                ) {
-                    usuarioActivo?.let { usuario ->
-                        MiTopBar(
-                            usuario = usuario,
-                            navegarPantallaCredenciales = {
-                                navController.navigate(Rutas.CREDENCIALES.ruta) {
-                                    popUpTo(0) { inclusive = true }
-                                }
-                            },
-                            desplegarMenu = {
-                                if (!usuario.esAdmin)
-                                scope.launch { drawerState.open() }
-                            },
-                            mostrarMenu = !usuario.esAdmin
-                        )
-                    }
-                }
-            },
-            bottomBar = {
-                if (
-                    rutaActual == Rutas.EJERCICIOS.ruta ||
-                    rutaActual == Rutas.EJERCICIOS_MUSCULO.ruta ||
-                    rutaActual == Rutas.EJERCICIOS_TIPO_PESO.ruta
-                ) {
-                    MiBottomBar(navController)
+                usuarioActivo?.let { usuario ->
+                    MiTopBar(
+                        usuario = usuario,
+                        navegarPantallaCredenciales = {
+                            navController.navigate(Rutas.CREDENCIALES.ruta) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        },
+                        desplegarMenu = {},
+                        mostrarMenu = false
+                    )
                 }
             }
         ) { paddingValues ->
@@ -303,225 +155,6 @@ fun NavegadorPrincipal(
                 startDestination = inicioAplicacion,
                 modifier = Modifier.padding(paddingValues)
             ) {
-                composable(Rutas.LOGIN.ruta) {
-                    PantallaLogin(
-                        viewModel = loginViewModel,
-                        loginExitoso = {
-                            val usuario = ControladorSesion.usuarioLogueado()!!
-                            usuarioActivo = usuario
-                            val ruta = if (usuario.esAdmin) {
-                                Rutas.ADMIN.ruta
-                            } else {
-                                val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
-                                if (perfil != null) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
-                            }
-
-                            navController.navigate(ruta) {
-                                popUpTo(Rutas.LOGIN.ruta) { inclusive = true }
-                            }
-                        },
-                        pantallaRegistro = { navController.navigate(Rutas.REGISTRO.ruta) },
-                        pantallaAdmin = { navController.navigate(Rutas.ADMIN.ruta) }
-                    )
-                }
-
-                composable(Rutas.REGISTRO.ruta) {
-                    PantallaRegistro(
-                        viewModel = registerViewModel,
-                        registroExitoso = {
-                            navController.navigate(Rutas.FORMULARIO.ruta) { popUpTo(Rutas.REGISTRO.ruta) { inclusive = true } }
-                        },
-                        pantallaLogin = { navController.popBackStack() }
-                    )
-                }
-
-                composable(Rutas.FORMULARIO.ruta) {
-                    PantallaFormulario(
-                        onGuardar = { experiencia, enfoque, edad, altura, peso ->
-                            val perfilGuardado = formularioViewModel.guardarPerfil(
-                                edad = edad,
-                                altura = altura,
-                                peso = peso,
-                                experiencia = experiencia,
-                                enfoque = enfoque
-                            )
-
-                            if (perfilGuardado != null) {
-                                usuarioActivo = ControladorSesion.usuarioLogueado()
-
-                                navController.navigate(Rutas.HOME.ruta) {
-                                    popUpTo(Rutas.FORMULARIO.ruta) { inclusive = true }
-                                }
-                            }
-                        }
-                    )
-                }
-
-                composable(Rutas.HOME.ruta) {
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null) {
-                        val rutinaActiva = homeViewModel.rutinaActiva
-
-                        PantallaPrincipal(
-                            usuario = usuario,
-                            viewModel = homeViewModel,
-                            iniciarEntreno = {
-                                rutinaActiva?.let { rutina ->
-                                    navController.currentBackStackEntry
-                                        ?.savedStateHandle
-                                        ?.set("rutinaId", rutina.id)
-
-                                    navController.navigate(Rutas.INICIO_ENTRENO.ruta)
-                                }
-                            }
-                        )
-                    }
-                }
-
-                composable(Rutas.CREDENCIALES.ruta){
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null){
-                        PantallaDatosUsuario(
-                            usuario = usuario,
-                            volverHome = {
-                                if (!usuario.esAdmin){
-                                    navController.navigate(Rutas.HOME.ruta) { popUpTo(Rutas.HOME.ruta) { inclusive = true } }
-                                } else {
-                                    navController.navigate(Rutas.ADMIN.ruta) { popUpTo(Rutas.ADMIN.ruta) { inclusive = true } }
-                                }
-
-                            },
-                            viewModel = datosViewModel
-                        )
-                    }
-                }
-
-                composable(Rutas.RUTINAS.ruta) {
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null) {
-                        PantallaRutinas(
-                            rutinaViewModel = rutinasViewModel,
-                            usuario = usuario,
-                            onModificarRutina = { rutinaSeleccionada ->
-                                navController.currentBackStackEntry
-                                    ?.savedStateHandle
-                                    ?.set("rutinaId", rutinaSeleccionada.id)
-                                navController.navigate(Rutas.ENTRENOS.ruta)
-                            }
-                        )
-                    }
-                }
-
-                composable(Rutas.EJERCICIOS.ruta){
-                    PantallaEjercicios(
-                        context = context
-                    )
-                }
-
-                composable(Rutas.EJERCICIOS_MUSCULO.ruta){
-                    PantallaEjerciciosPorMusculo(
-                        context = context
-                    )
-                }
-
-                composable(Rutas.EJERCICIOS_TIPO_PESO.ruta){
-                    PantallaEjerciciosPorTipoPeso(
-                        context = context
-                    )
-                }
-
-                composable(Rutas.MARCAS.ruta){
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    PantallaMarcas(
-                        entrenamientosRepository = entrenamientosRepository,
-                        usuarioId = usuario?.id
-
-                    )
-                }
-
-                composable(Rutas.CALENDARIO.ruta){
-                    PantallaCalendario(entrenamientoViewModel = entrenamientoViewModel)
-                }
-
-                composable(Rutas.ENTRENOS.ruta) {
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null) {
-                        val rutinaId = navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.get<String>("rutinaId")
-
-                        val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
-                        val rutina = perfil?.rutinas?.find { it.id == rutinaId }
-
-                        if (rutina != null) {
-                            PantallaEntrenos(
-                                rutina = rutina,
-                                onEntrenoClick = { entrenoSeleccionado, rutina ->
-                                    navController.currentBackStackEntry
-                                        ?.savedStateHandle
-                                        ?.set("entrenoId", entrenoSeleccionado.id)
-                                    navController.currentBackStackEntry
-                                        ?.savedStateHandle
-                                        ?.set("rutinaId", rutina.id)
-
-                                    navController.navigate(Rutas.ENTRENO_ESPECIFICO.ruta)
-                                }
-                            )
-                        }
-                    }
-                }
-
-                composable(Rutas.ENTRENO_ESPECIFICO.ruta) {
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null) {
-                        val entrenoId = navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.get<String>("entrenoId")
-                        val rutinaId = navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.get<String>("rutinaId")
-
-                        val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
-                        val rutina = perfil?.rutinas?.find { it.id == rutinaId }
-                        val entreno = rutina?.dias?.find { it.id == entrenoId }
-
-                        if (rutina != null && entreno != null) {
-                            PantallaEntrenoEspecifico(
-                                entreno = entreno,
-                                rutinaId = rutina.id,
-                                usuario = usuario,
-                                viewModel = entrenamientoEspecificoViewModel,
-                                pantallaAnterior = {
-                                    navController.popBackStack()
-                                }
-                            )
-                        }
-                    }
-                }
-
-                composable(Rutas.INICIO_ENTRENO.ruta) {
-                    val usuario = ControladorSesion.usuarioLogueado()
-                    if (usuario != null) {
-                        val rutinaId = navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.get<String>("rutinaId")
-
-                        val perfilGimnasio = rutinasViewModel.obtenerPerfil(usuario.id)
-                        val rutinaActiva = perfilGimnasio?.rutinas?.find { it.id == rutinaId }
-
-                        if (rutinaActiva != null) {
-                            PantallaInicioEntreno(
-                                plan = rutinaActiva,
-                                viewModel = entrenamientoViewModel,
-                                context = context,
-                                navegarHome = {
-                                    navController.navigate(Rutas.HOME.ruta)
-                                }
-                            )
-                        }
-                    }
-                }
-
                 composable(Rutas.ADMIN.ruta) {
                     PantallaAdmin(
                         pantallaRecords = {
@@ -530,20 +163,449 @@ fun NavegadorPrincipal(
                         cerrarSesion = {
                             scope.launch {
                                 ControladorSesion.cerrarSesion(context)
-                                navController.navigate(Rutas.LOGIN.ruta) { popUpTo(0) { inclusive = true } }
+                                navController.navigate(Rutas.LOGIN.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
                             }
                         }
                     )
                 }
 
-                composable(Rutas.MARCAS_RECORDS.ruta){
-                    PantallaMarcasRecords()
-                }
-
-                composable(Rutas.MANEJO_MARCAS_ADMIN.ruta){
+                composable(Rutas.MANEJO_MARCAS_ADMIN.ruta) {
                     PantallaManejoMarcas(
                         onBack = { navController.popBackStack() }
                     )
+                }
+
+                composable(Rutas.CREDENCIALES.ruta) {
+                    val usuario = ControladorSesion.usuarioLogueado()
+                    if (usuario != null) {
+                        PantallaDatosUsuario(
+                            usuario = usuario,
+                            volverHome = {
+                                navController.navigate(Rutas.ADMIN.ruta) {
+                                    popUpTo(Rutas.ADMIN.ruta) { inclusive = true }
+                                }
+                            },
+                            viewModel = datosViewModel
+                        )
+                    }
+                }
+            }
+        }
+    } else {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            gesturesEnabled = true,
+            drawerContent = {
+                ModalDrawerSheet {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Opciones del Programa",
+                        modifier = Modifier
+                            .padding(16.dp)
+                    )
+                    HorizontalDivider()
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Navegar a Home"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.HOME.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Mostrar Ejercicios"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.EJERCICIOS.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Mostrar Rutinas"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.RUTINAS.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Mostrar Marcas"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.MARCAS.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Mostrar Calendario"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.CALENDARIO.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Récords Globales"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                navController.navigate(Rutas.MARCAS_RECORDS.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Cerrar Sesión"
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                ControladorSesion.cerrarSesion(context)
+                                navController.navigate(Rutas.LOGIN.ruta) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        ) {
+            Scaffold(
+                topBar = {
+                    if (rutaActual != Rutas.REGISTRO.ruta &&
+                        rutaActual != Rutas.LOGIN.ruta &&
+                        rutaActual != Rutas.FORMULARIO.ruta &&
+                        rutaActual != Rutas.CREDENCIALES.ruta &&
+                        rutaActual != Rutas.ENTRENOS.ruta &&
+                        rutaActual != Rutas.ENTRENO_ESPECIFICO.ruta &&
+                        rutaActual != Rutas.INICIO_ENTRENO.ruta
+                    ) {
+                        usuarioActivo?.let { usuario ->
+                            MiTopBar(
+                                usuario = usuario,
+                                navegarPantallaCredenciales = {
+                                    navController.navigate(Rutas.CREDENCIALES.ruta) {
+                                        popUpTo(0) { inclusive = true }
+                                    }
+                                },
+                                desplegarMenu = {
+                                    if (!usuario.esAdmin)
+                                        scope.launch { drawerState.open() }
+                                },
+                                mostrarMenu = !usuario.esAdmin
+                            )
+                        }
+                    }
+                },
+                bottomBar = {
+                    if (
+                        rutaActual == Rutas.EJERCICIOS.ruta ||
+                        rutaActual == Rutas.EJERCICIOS_MUSCULO.ruta ||
+                        rutaActual == Rutas.EJERCICIOS_TIPO_PESO.ruta
+                    ) {
+                        MiBottomBar(navController)
+                    }
+                }
+            ) { paddingValues ->
+                NavHost(
+                    navController = navController,
+                    startDestination = inicioAplicacion,
+                    modifier = Modifier.padding(paddingValues)
+                ) {
+                    composable(Rutas.LOGIN.ruta) {
+                        PantallaLogin(
+                            viewModel = loginViewModel,
+                            loginExitoso = {
+                                val usuario = ControladorSesion.usuarioLogueado()!!
+                                usuarioActivo = usuario
+                                val ruta = if (usuario.esAdmin) {
+                                    Rutas.ADMIN.ruta
+                                } else {
+                                    val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
+                                    if (perfil != null) Rutas.HOME.ruta else Rutas.FORMULARIO.ruta
+                                }
+
+                                navController.navigate(ruta) {
+                                    popUpTo(Rutas.LOGIN.ruta) { inclusive = true }
+                                }
+                            },
+                            pantallaRegistro = { navController.navigate(Rutas.REGISTRO.ruta) },
+                            pantallaAdmin = { navController.navigate(Rutas.ADMIN.ruta) }
+                        )
+                    }
+
+                    composable(Rutas.REGISTRO.ruta) {
+                        PantallaRegistro(
+                            viewModel = registerViewModel,
+                            registroExitoso = {
+                                navController.navigate(Rutas.FORMULARIO.ruta) { popUpTo(Rutas.REGISTRO.ruta) { inclusive = true } }
+                            },
+                            pantallaLogin = { navController.popBackStack() }
+                        )
+                    }
+
+                    composable(Rutas.FORMULARIO.ruta) {
+                        PantallaFormulario(
+                            onGuardar = { experiencia, enfoque, edad, altura, peso ->
+                                val perfilGuardado = formularioViewModel.guardarPerfil(
+                                    edad = edad,
+                                    altura = altura,
+                                    peso = peso,
+                                    experiencia = experiencia,
+                                    enfoque = enfoque
+                                )
+
+                                if (perfilGuardado != null) {
+                                    usuarioActivo = ControladorSesion.usuarioLogueado()
+
+                                    navController.navigate(Rutas.HOME.ruta) {
+                                        popUpTo(Rutas.FORMULARIO.ruta) { inclusive = true }
+                                    }
+                                }
+                            }
+                        )
+                    }
+
+                    composable(Rutas.HOME.ruta) {
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null) {
+                            val rutinaActiva = homeViewModel.rutinaActiva
+
+                            PantallaPrincipal(
+                                usuario = usuario,
+                                viewModel = homeViewModel,
+                                iniciarEntreno = {
+                                    rutinaActiva?.let { rutina ->
+                                        navController.currentBackStackEntry
+                                            ?.savedStateHandle
+                                            ?.set("rutinaId", rutina.id)
+
+                                        navController.navigate(Rutas.INICIO_ENTRENO.ruta)
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+                    composable(Rutas.CREDENCIALES.ruta){
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null){
+                            PantallaDatosUsuario(
+                                usuario = usuario,
+                                volverHome = {
+                                    if (!usuario.esAdmin){
+                                        navController.navigate(Rutas.HOME.ruta) { popUpTo(Rutas.HOME.ruta) { inclusive = true } }
+                                    } else {
+                                        navController.navigate(Rutas.ADMIN.ruta) { popUpTo(Rutas.ADMIN.ruta) { inclusive = true } }
+                                    }
+
+                                },
+                                viewModel = datosViewModel
+                            )
+                        }
+                    }
+
+                    composable(Rutas.RUTINAS.ruta) {
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null) {
+                            PantallaRutinas(
+                                rutinaViewModel = rutinasViewModel,
+                                usuario = usuario,
+                                onModificarRutina = { rutinaSeleccionada ->
+                                    navController.currentBackStackEntry
+                                        ?.savedStateHandle
+                                        ?.set("rutinaId", rutinaSeleccionada.id)
+                                    navController.navigate(Rutas.ENTRENOS.ruta)
+                                }
+                            )
+                        }
+                    }
+
+                    composable(Rutas.EJERCICIOS.ruta){
+                        PantallaEjercicios(
+                            context = context
+                        )
+                    }
+
+                    composable(Rutas.EJERCICIOS_MUSCULO.ruta){
+                        PantallaEjerciciosPorMusculo(
+                            context = context
+                        )
+                    }
+
+                    composable(Rutas.EJERCICIOS_TIPO_PESO.ruta){
+                        PantallaEjerciciosPorTipoPeso(
+                            context = context
+                        )
+                    }
+
+                    composable(Rutas.MARCAS.ruta){
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        PantallaMarcas(
+                            entrenamientosRepository = entrenamientosRepository,
+                            usuarioId = usuario?.id
+
+                        )
+                    }
+
+                    composable(Rutas.CALENDARIO.ruta){
+                        PantallaCalendario(entrenamientoViewModel = entrenamientoViewModel)
+                    }
+
+                    composable(Rutas.ENTRENOS.ruta) {
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null) {
+                            val rutinaId = navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.get<String>("rutinaId")
+
+                            val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
+                            val rutina = perfil?.rutinas?.find { it.id == rutinaId }
+
+                            if (rutina != null) {
+                                PantallaEntrenos(
+                                    rutina = rutina,
+                                    onEntrenoClick = { entrenoSeleccionado, rutina ->
+                                        navController.currentBackStackEntry
+                                            ?.savedStateHandle
+                                            ?.set("entrenoId", entrenoSeleccionado.id)
+                                        navController.currentBackStackEntry
+                                            ?.savedStateHandle
+                                            ?.set("rutinaId", rutina.id)
+
+                                        navController.navigate(Rutas.ENTRENO_ESPECIFICO.ruta)
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    composable(Rutas.ENTRENO_ESPECIFICO.ruta) {
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null) {
+                            val entrenoId = navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.get<String>("entrenoId")
+                            val rutinaId = navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.get<String>("rutinaId")
+
+                            val perfil = rutinasViewModel.obtenerPerfil(usuario.id)
+                            val rutina = perfil?.rutinas?.find { it.id == rutinaId }
+                            val entreno = rutina?.dias?.find { it.id == entrenoId }
+
+                            if (rutina != null && entreno != null) {
+                                PantallaEntrenoEspecifico(
+                                    entreno = entreno,
+                                    rutinaId = rutina.id,
+                                    usuario = usuario,
+                                    viewModel = entrenamientoEspecificoViewModel,
+                                    pantallaAnterior = {
+                                        navController.popBackStack()
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    composable(Rutas.INICIO_ENTRENO.ruta) {
+                        val usuario = ControladorSesion.usuarioLogueado()
+                        if (usuario != null) {
+                            val rutinaId = navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.get<String>("rutinaId")
+
+                            val perfilGimnasio = rutinasViewModel.obtenerPerfil(usuario.id)
+                            val rutinaActiva = perfilGimnasio?.rutinas?.find { it.id == rutinaId }
+
+                            if (rutinaActiva != null) {
+                                PantallaInicioEntreno(
+                                    plan = rutinaActiva,
+                                    viewModel = entrenamientoViewModel,
+                                    context = context,
+                                    navegarHome = {
+                                        navController.navigate(Rutas.HOME.ruta)
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    composable(Rutas.ADMIN.ruta) {
+                        PantallaAdmin(
+                            pantallaRecords = {
+                                navController.navigate(Rutas.MANEJO_MARCAS_ADMIN.ruta)
+                            },
+                            cerrarSesion = {
+                                scope.launch {
+                                    ControladorSesion.cerrarSesion(context)
+                                    navController.navigate(Rutas.LOGIN.ruta) { popUpTo(0) { inclusive = true } }
+                                }
+                            }
+                        )
+                    }
+
+                    composable(Rutas.MARCAS_RECORDS.ruta){
+                        PantallaMarcasRecords()
+                    }
+
+                    composable(Rutas.MANEJO_MARCAS_ADMIN.ruta){
+                        PantallaManejoMarcas(
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
                 }
             }
         }
