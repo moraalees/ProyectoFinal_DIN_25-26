@@ -171,6 +171,10 @@ Crear un manual de usuario es clave para que cualquier persona pueda entender to
 
 ## Pruebas avanzadas
 
+Se han realizado varias pruebas avanzadas con el fin de buscar y analizar el rendimiento y seguridad, entre otros, de la aplicación.
+
+[`Pruebas Avanzadas`](PruebasAvanzadas.md)
+
 ---
 
 ## Vídeo de explicación y de uso
