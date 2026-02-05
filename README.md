@@ -60,6 +60,26 @@ Con el fin de poder organizar las clases y funciones de mi aplicación, he decid
 
 ## Características Principales
 
+`GymTracker` posee varias funcionalidades que no se encuentran en la mayoría de aplicaciones convenciales. Estas características fomentan el continuo entrenamiento de los usuarios y les motiva a seguir:
+
+- Calendario: Muestra un calendario en donde se observan los entrenos que el usuario y cuándo se hicieron:
+  - La interfaz se basa en un calendario dinámico que utiliza la función `generarDiasCalendario` para construir una cuadrícula mensual completa, incluyendo días de meses adyacentes para mantener la estética de semanas enteras. Mediante el uso de estados de Jetpack Compose como `mesActual` y la función `derivedStateOf`, la pantalla se redibuja automáticamente cada vez que el usuario navega entre meses, permitiendo explorar el historial de actividad de forma fluida y visualmente organizada.
+  - Al seleccionar un día específico, la aplicación filtra la lista de entrenamientos cargados para mostrar el detalle de los ejercicios realizados en esa fecha en la parte inferior de la pantalla. Si el entrenamiento ya tiene registros, muestra el peso y las repeticiones reales de cada serie individual. De lo contrario, presenta los objetivos de peso y repeticiones estimados. Esta información se organiza en tarjetas que separan visualmente cada ejercicio para facilitar una lectura rápida del progreso físico.
+  - La persistencia de datos se gestiona mediante una arquitectura de tres capas, [`ViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/actual_training/EntrenamientoViewModel.kt), [`Repositorio`](app/src/main/java/com/example/gymtracker/data/repository/EntrenamientosRepository.kt) y [`DataSource`](app/src/main/java/com/example/gymtracker/data/local/json/EntrenamientosRealizadosJsonDataSource.kt). Esta estructura utiliza archivos locales en formato JSON para el almacenamiento. Para garantizar la privacidad y la integridad de la información, cada usuario tiene su propio archivo identificado por su ID único, llamado `entrenamientos_ID.json`. Gracias a la librería Gson, los objetos de la aplicación se convierten automáticamente en texto para almacenarse en la memoria interna del dispositivo, asegurando que los datos sobrevivan incluso si se cierra la aplicación o se apaga el móvil.
+  - El flujo de datos comienza con una carga automática al abrir la pantalla, donde el [`ViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/actual_training/EntrenamientoViewModel.kt) recupera la información del repositorio para marcar los días con actividad en el calendario. Cuando el usuario registra o modifica un entrenamiento, el sistema actualiza la lista en memoria y sobrescribe el archivo JSON correspondiente de manera transparente para el usuario. Este ciclo garantiza que la interfaz siempre refleje el estado más reciente de los entrenamientos, manteniendo una sincronización constante entre lo que se ve en pantalla y lo que está guardado en el disco.
+  
+- Marcas globales: Un usuario puede subir su marca personal y el administrador decidirá si es válida o no para que esté presente en la aplicación:
+  - El usuario interactúa con [`PantallaMarcasRecords`](app/src/main/java/com/example/gymtracker/ui/screens/records/PantallaMarcasRecords.kt) y sube un vídeo. [`RecordsViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/records/RecordsViewModel.kt) invoca el método `attemptSubmit`, que delega en [`RecordsRepository`](app/src/main/java/com/example/gymtracker/data/repository/RecordsRepository.kt) la creación de una solicitud. En esta fase, el [`RecordsLocalesDataSource`](app/src/main/java/com/example/gymtracker/data/local/json/RecordsLocalesDataSource.kt) realiza dos tareas críticas, como guardar físicamente el archivo .mp4 en una carpeta temporal llamada `requests_videos` y actualiza el archivo `requests.json` con los datos de la marca, dejando la solicitud en estado pendiente.
+  - Cuando el administrador accede a [`PantallaManejoMarcas`](app/src/main/java/com/example/gymtracker/ui/screens/admin/PantallaManejoMarcas.kt), donde [`SolicitudesRecordViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/records/SolicitudesRecordViewModel.kt) recupera esta lista de espera. Si el administrador decide aprobar la marca, se ejecuta el método `adminAcceptRequest` en el repositorio. Allí, el vídeo es promocionado de la carpeta temporal a la carpeta permanente de vídeos mediante el método `moveRequestVideoToVideos`, y se actualiza el ranking oficial en el archivo `records.json`. Este proceso es totalmente transparente para el usuario, quien solo verá su marca publicada una vez que el administrador haya verificado su solicitud.
+  - La lógica de competición se gestiona mediante un filtrado en donde solo aparecen las 3 mejores marcas registradas y aceptadas por el administrador. Al aceptar un nuevo récord, el repositorio utiliza un comparador personalizado llamado `compareSubmissions` que ordena la lista priorizando primero el peso y, en caso de empate, las repeticiones. Si la nueva marca entra entre las 3 mejores, el sistema añade la entrada y expulsa automáticamente al cuarto lugar. Para optimizar el almacenamiento del dispositivo, el repositorio invoca a `deleteVideo` para borrar el archivo multimedia de cualquier marca que haya sido desplazada fuera del podio, manteniendo así el sistema limpio y eficiente.
+  - Finalmente, la robustez del sistema está presente en su arquitectura de tres capas. El ViewModel gestiona el estado de la UI y los hilos de ejecución, gracias a `Dispatchers.IO`. El Repository aplica las reglas de negocio y comparaciones. Por último, el DataSource se encarga de la persistencia real usando la librería Gson para serializar los objetos a JSON. Esta estructura desacoplada permite que, aunque el usuario cierre la aplicación durante una carga, los archivos internos permanezcan íntegros y listos para ser recuperados en la próxima sesión.
+
+- Rutina autogenerada: Dependiendo de los datos físicos del usuario, le generará una rutina amoldada a su perfil:
+  - En [`FormularioViewModel`](app/src/main/java/com/example/gymtracker/ui/screens/form/FormularioViewModel.kt), donde, tras recoger los datos físicos y objetivos del usuario, se crea un perfil de `UsuarioGimnasio`. Al guardar este perfil, el sistema activa automáticamente el método `asignarRutina` del repositorio, asegurando que ningún usuario nuevo se quede sin un plan de entrenamiento adaptado desde el primer segundo.
+  - [`EntrenoRepository`](app/src/main/java/com/example/gymtracker/data/repository/EntrenoRepository.kt) actúa como un motor de decisiones inteligente. Este componente utiliza la función `generarPlanSemanal` para consultar un catálogo de plantillas predefinidas que varían según el objetivo y el nivel de experiencia que el usuario haya ingresado. Una vez seleccionada la plantilla adecuada, el repositorio calcula los parámetros de entrenamiento, como las series y repeticiones, gracias a la función `calcularParametros`, que ajustará el volumen de trabajo para que este no sea tan intenso pero tampoco ligero.
+  - Lo que realmente hace que el plan sea único para cada persona es el método `estimarPeso`. En lugar de asignar cargas aleatorias, el sistema realiza un cálculo basado en el peso corporal del usuario y el tipo de equipamiento. Por ejemplo, si un usuario principiante realiza un ejercicio con barra, el sistema le asignará un peso estimado del 25% de su peso corporal, mientras que para un usuario avanzado con mancuernas, el cálculo subirá al 40%. Esta lógica permite que la rutina crezca dependiendo de la complexión física del usuario.
+  - Finalmente, una vez que el plan semanal está construido con sus ejercicios, series, repeticiones y pesos sugeridos, se guarda en el perfil del usuario y se marca como `rutinaActiva` por defecto. Todo este conjunto de datos se persiste en el archivo `usuarios_gimnasio.json` a través del [`UsuarioGimnasioJsonDataSource`](app/src/main/java/com/example/gymtracker/data/local/json/UsuarioGimnasioJsonDataSource.kt). De este modo, la próxima vez que el usuario abra la aplicación, su entrenamiento personalizado estará listo en la pantalla principal sin que haya tenido que configurar nada manualmente.
+
 ---
 
 ## Justificación de Diseño y Usabilidad
@@ -104,71 +124,48 @@ Estas decisiones permiten que la aplicación sea comprensible y usable para usua
 
 ## Herramientas y librerías
 
-Aquí se nombrarán herramientas como JetPack compose, NUI, informes... Sistemas de generación de ayudas.
+### Herramientas NUI
+
+- Acerca de las herramientas de componentes usadas: [`Herramientas Usadas`](herramientas/HerramientasUsadas.md)
+- Acerca del `RA2.a Herramientas NUI`: [`Herramientas NUI`](herramientas/HerramientasNUI.md)
+- Acerca del `RA2.b Diseño conceptual NUI`: [`Diseño Conceptual NUI`](herramientas/DiseñoConceptualNUI.md)
+- Acerca del `RA2.c Interacción por voz`: [`Interacción por voz`](herramientas/InteracciónVoz.md)
+- Acerca del `RA2.d Interacción por gesto`: [`Interacción por gesto`](herramientas/InteracciónGesto.md)
+- Acerca del `RA2.e Detección facial/corporal`: [`Detección facial o corporal`](herramientas/DetecciónCorporal.md)
+- Acerca del `RA2.f Realidad aumentada`: [`Realidad Aumentada`](herramientas/RealidadAumentada.md)
+
+### Informes
+
+En una aplicación de seguimiento deportivo, como lo es `GymTracker`, los datos por sí solos tienen un valor limitado. La verdadera utilidad para el usuario surge cuando esos datos se transforman en informes de progreso.
+
+Los informes son fundamentales porque permiten:
+- Visualizar la evolución, identificando tendencias de mejora a largo plazo que no se ven en el día a día.
+- La toma de decisiones, porque ayuda al usuario a saber cuándo subir de peso o cuándo cambiar de rutina basándose en datos reales.
+- Motivación y retención, al ver gráficas de crecimiento refuerza el compromiso del usuario con la aplicación y con sus objetivos personales.
+
+[`Herramientas para generar informes`](herramientas/HerramientasInformes.md)
+
+### Guías de ayuda
+
+En esta pequeña sección se describe la planificación y documentación de los sistemas de ayuda de la aplicación `GymTracker`. Se detallan estrategias para generar ayudas al usuario, documentar la información persistente, y crear manuales y tutoriales. Todo esto tiene el objetivo de garantizar una experiencia accesible y profesional, permitiendo a usuarios de distintos niveles interactuar con la aplicación de manera efectiva y segura.
+
+[`Guías de ayuda`](GuiasAyuda.md)
 
 ---
 
 ## Empaquetado de la aplicación
 
+En esta sección se describen los RA relacionados con el empaquetado, distribución e instalación de la aplicación `GymTracker`. Se detalla la planificación de cada paso para garantizar una correcta construcción del paquete, personalización del instalador, uso de herramientas externas, firma digital, instalación desatendida, desinstalación segura y canales de distribución, siguiendo buenas prácticas de desarrollo en Android y asegurando una experiencia profesional para el usuario final.
+
+[`Empaquetado de la Aplicación`](EmpaquetadoAplicación.md)
+
 ---
 
 ## Manual de usuario de la aplicación
 
-### Registro y creación del perfil
+Crear un manual de usuario es clave para que cualquier persona pueda entender todas las partes de la aplicación.
 
-Al iniciar la aplicación, el usuario puede registrarse desde la Pantalla de Registro introduciendo sus credenciales. Una vez completado el registro correctamente, la aplicación le redirigirá a un formulario de datos personales, donde deberá introducir información física como la edad, la altura u otros datos relevantes. Con esta información, la aplicación generará automáticamente una rutina de entrenamiento adaptada a su perfil. Tras completar el formulario, el usuario accederá a la Pantalla Principal.
-
-### Pantalla Principal y navegación
-
-Desde la Pantalla Principal, el usuario puede desplazarse por las distintas secciones de la aplicación utilizando la barra superior o accediendo directamente a su rutina activa. Esta pantalla actúa como punto central desde el que se accede al resto de funcionalidades.
-
-### Datos del usuario
-
-En la Pantalla de Datos del Usuario, el usuario puede consultar y revisar su información personal, como su peso o enfoque de entrenamiento, así como sus credenciales, como el correo electrónico o la contraseña.
-
-### Ejercicios
-
-La Pantalla de Ejercicios muestra todos los ejercicios disponibles en la aplicación. Incluye tanto ejercicios predefinidos como ejercicios añadidos por el propio usuario. Además, dispone de una barra inferior que permite filtrar los ejercicios según distintos criterios, como el tipo de peso utilizado o el músculo trabajado.
-
-### Rutinas
-
-En la Pantalla de Rutinas, el usuario puede consultar las rutinas asociadas a su perfil. Desde aquí es posible:
-- Crear nuevas rutinas, eligiendo los días de descanso y de entrenamiento.
-- Establecer una rutina como activa.
-- Modificar rutinas existentes, cambiando días de descanso por días de entrenamiento o ajustando los ejercicios.
-- Eliminar rutinas que ya no se deseen.
-
-Cuando se modifica una rutina, el usuario puede añadir ejercicios (tanto propios como predefinidos) y definir parámetros como repeticiones, número de series y peso recomendado.
-
-### Marcas personales
-
-La Pantalla de Marcas muestra las marcas personales alcanzadas por el usuario y la fecha en la que se consiguieron. Debido a la gran cantidad de ejercicios, esta pantalla incluye un buscador para facilitar la localización de marcas concretas.
-
-### Calendario de entrenamientos
-
-En la Pantalla de Calendario, el usuario puede consultar los entrenamientos realizados en cada día. Se muestran detalles como los ejercicios entrenados, las series y las repeticiones. En futuras versiones de la aplicación, se incorporará un panel de estadísticas para analizar el rendimiento a lo largo del tiempo.
-
-### Marcas récord
-
-La Pantalla de Marcas Récord recoge las mejores marcas de todos los usuarios de la aplicación. Para aparecer en el podio de un ejercicio, el usuario debe:
-1. Seleccionar el ejercicio.
-2. Introducir los datos de su marca.
-3. Adjuntar un vídeo como demostración.
-4. Enviar la solicitud para su validación.
-
-Estas marcas fomentan una competitividad sana entre los usuarios y sirven como motivación para mejorar.
-
-### Inicio de un entrenamiento
-
-Desde la Pantalla de Inicio de Entrenamiento, el usuario comienza una sesión de entreno basada en su rutina activa. La aplicación muestra los ejercicios del día y solicita los datos realizados (repeticiones y peso). Entre series, se activa un contador de descanso de dos minutos, que el usuario puede ampliar o finalizar manualmente. Durante el entrenamiento, la aplicación envía notificaciones para guiar el proceso. Al finalizar la sesión, el entreno se guarda automáticamente en el calendario.
-
-### Cierre de sesión y modo administrador
-
-El usuario puede cerrar sesión en cualquier momento para acceder con otra cuenta.
-
-Si el usuario accede en modo administrador, solo tendrá disponible la Pantalla de Administración, desde la cual podrá:
-- Gestionar las solicitudes de los usuarios para aparecer en el podio de marcas, revisando los vídeos y aceptando o rechazando las solicitudes.
-- Cerrar sesión.
+[`Manual`](ManualUsuario.md)
 
 ---
 
